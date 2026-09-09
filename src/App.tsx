@@ -32,20 +32,24 @@ const INITIAL_USER_PROFILE: UserProfile = {
   daily_food_budget: 55000,
 };
 
-const createInitialAiMessages = (profile: UserProfile, nut: NutritionRequirements | null): ChatMessage[] => [
+export const createInitialAiMessages = (profile: UserProfile, nut: NutritionRequirements | null): ChatMessage[] => [
   {
     id: 'welcome-1',
     sender: 'assistant',
-    text: `Halo! Saya **NUTRI-AI**, konsultan kecerdasan buatan spesialis gizi okupasi dan kesehatan tenaga kerja dari platform NUTRI-OPTIMA.
+    text: `Halo! Saya **NUTRI-AI**, konsultan interaktif kesehatan tenaga kerja dari platform NUTRI-OPTIMA. 🌿
 
-Saya telah memuat data profil kerja Anda:
+Saya dirancang khusus untuk mendampingi Anda dalam 3 fokus utama:
+1. **Kesehatan & Gizi Fisik**: Pilihan menu lokal hemat, energi stabil tanpa *food coma*, dan pemenuhan target protein harian.
+2. **Pengelolaan Stres Kerja**: Meredakan ketegangan mental, menurunkan hormon stres kortisol dengan asupan nutrisi penenang, dan teknik *micro-breaks*.
+3. **Mengatasi Rasa Jenuh & Burnout**: Mengembalikan kesegaran dan motivasi saat rutinitas kerja terasa monoton atau lelah fisik/mental.
+
+**Profil Kerja Terpantau:**
 - **Okupasi**: ${profile.occupation_type} (${profile.working_hours})
 - **Pola Shift**: ${profile.shift}
-- **Target Energi (TDEE)**: ${nut ? `${nut.daily_calories} kkal/hari` : 'Terhitung otomatis'}
-- **Target Protein**: ${nut ? `${nut.target_protein_g} gram` : 'Optimal'}
-- **Anggaran Pangan Harian**: Rp ${profile.daily_food_budget.toLocaleString('id-ID')}
+- **Target Energi (TDEE)**: **${nut ? `${nut.daily_calories} kkal/hari` : '2.300 kkal/hari'}** • Protein: **${nut ? `${nut.target_protein_g} gram` : '85 gram'}**
+- **Batas Anggaran**: Rp ${profile.daily_food_budget.toLocaleString('id-ID')}/hari
 
-Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penyesuaian jadwal makan, pilihan lauk lokal hemat, mengatasi kelelahan lembur, atau substitusi menu!`,
+Bagaimana kondisi fisik dan perasaanmu hari ini? Apakah sedang merasa lelah, stres dengan tumpukan tugas, atau ingin curhat seputar rasa jenuh di tempat kerja?`,
     timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
     source: 'domain-engine',
   },
