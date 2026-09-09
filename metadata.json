@@ -1,0 +1,6 @@
+{
+  "name": "NUTRI-OPTIMA",
+  "description": "NUTRI-OPTIMA: Nutrition Optimization for Workforce - Sistem rekomendasi gizi presisi berbasis AI untuk tenaga kerja dengan penyesuaian beban kerja okupasi, pola shift sirkadian, budget, dan indeks keberlanjutan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

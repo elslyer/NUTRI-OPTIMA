@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Gizi Tenaga Kerja — NUTRI-OPTIMA{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb & Header -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-decoration-none">Beranda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Assessment Gizi</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold text-dark mb-1">Nutrition & Workforce Assessment</h2>
+            <p class="text-muted">Masukkan data biometrik, karakteristik jam kerja, pola shift, dan anggaran makanan harian Anda.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end d-flex align-items-center justify-content-lg-end">
+            <button type="button" id="btn-demo-fill" class="btn btn-outline-secondary fw-semibold d-flex align-items-center gap-2 shadow-sm">
+                <i class="bi bi-person-badge text-success"></i>
+                <span>Template Profil Cepat</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Assessment Form Card -->
+    <form action="{{ url_for('analyze') }}" method="POST" id="assessmentForm">
+        <div class="row g-4">
+            <!-- Left Column: Personal & Work Profile -->
+            <div class="col-lg-6">
+                <!-- Section A: Personal Profile -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-bold">A</span>
+                            <h5 class="mb-0 fw-bold">Profil Individu & Biometrik</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="age" class="form-label fw-semibold">Usia (Tahun)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="age" name="age" min="15" max="80" value="{{ initial_data.get('age', 25) }}" required>
+                                    <span class="input-group-text">th</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="gender" class="form-label fw-semibold">Jenis Kelamin</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="Male" {% if initial_data.get('gender') == 'Male' or not initial_data %}selected{% endif %}>Laki-laki (Pria)</option>
+                                    <option value="Female" {% if initial_data.get('gender') == 'Female' %}selected{% endif %}>Perempuan (Wanita)</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="weight_kg" class="form-label fw-semibold">Berat Badan (kg)</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.5" class="form-control" id="weight_kg" name="weight_kg" min="30" max="200" value="{{ initial_data.get('weight_kg', 65.0) }}" required>
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="height_cm" class="form-label fw-semibold">Tinggi Badan (cm)</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.5" class="form-control" id="height_cm" name="height_cm" min="100" max="230" value="{{ initial_data.get('height_cm', 170.0) }}" required>
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section B: Work Profile -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3 py-2 fw-bold">B</span>
+                            <h5 class="mb-0 fw-bold">Karakteristik Pekerjaan (Workforce)</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label for="occupation_type" class="form-label fw-semibold">Jenis / Beban Pekerjaan</label>
+                            <select class="form-select" id="occupation_type" name="occupation_type" required>
+                                <option value="Sedentary / pekerjaan kantor" {% if 'sedentary' in initial_data.get('occupation_type', '').lower() %}selected{% endif %}>1. Sedentary / Pekerjaan Kantor (Duduk dominan)</option>
+                                <option value="Light physical work" {% if 'light' in initial_data.get('occupation_type', '').lower() %}selected{% endif %}>2. Light Physical Work (Banyak berdiri / berjalan)</option>
+                                <option value="Moderate physical work" {% if 'moderate' in initial_data.get('occupation_type', '').lower() or not initial_data %}selected{% endif %}>3. Moderate Physical Work (Aktivitas fisik sedang)</option>
+                                <option value="Heavy physical work" {% if 'heavy' in initial_data.get('occupation_type', '').lower() %}selected{% endif %}>4. Heavy Physical Work (Pekerja lapangan / konstruksi / logistik)</option>
+                            </select>
+                            <div class="form-text small">Beban pekerjaan mempengaruhi multiplier pengeluaran energi dan target protein per kg berat badan.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="working_hours" class="form-label fw-semibold">Durasi Jam Kerja Harian</label>
+                            <select class="form-select" id="working_hours" name="working_hours" required>
+                                <option value="< 6 jam" {% if initial_data.get('working_hours') == '< 6 jam' %}selected{% endif %}>&lt; 6 jam</option>
+                                <option value="6–8 jam" {% if initial_data.get('working_hours') == '6–8 jam' %}selected{% endif %}>6–8 jam (Standar)</option>
+                                <option value="8–10 jam" {% if initial_data.get('working_hours') == '8–10 jam' or not initial_data %}selected{% endif %}>8–10 jam (Lembur moderat)</option>
+                                <option value="> 10 jam" {% if initial_data.get('working_hours') == '> 10 jam' %}selected{% endif %}>&gt; 10 jam (Lembur panjang)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="shift" class="form-label fw-semibold">Pola Kerja / Shift</label>
+                            <select class="form-select" id="shift" name="shift" required>
+                                <option value="Regular daytime" {% if initial_data.get('shift') == 'Regular daytime' %}selected{% endif %}>Regular daytime (Pagi ke Sore)</option>
+                                <option value="Morning" {% if initial_data.get('shift') == 'Morning' %}selected{% endif %}>Morning shift (Subuh - Siang)</option>
+                                <option value="Afternoon" {% if initial_data.get('shift') == 'Afternoon' %}selected{% endif %}>Afternoon shift (Siang - Malam)</option>
+                                <option value="Night" {% if initial_data.get('shift') == 'Night' or not initial_data %}selected{% endif %}>Night shift (Shift Malam: 20:00 - 06:00)</option>
+                            </select>
+                            <div class="form-text small text-primary"><i class="bi bi-clock-history"></i> Khusus shift malam, sistem secara otomatis menerapkan penjadwalan sirkadian (Pre-shift, Mid-shift, Post-shift).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Activity, Sleep, Preference & Budget -->
+            <div class="col-lg-6">
+                <!-- Section C & D: Physical Activity & Sleep -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-3 py-2 fw-bold">C</span>
+                            <h5 class="mb-0 fw-bold">Aktivitas Fisik Luar Kerja & Pola Tidur</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="physical_activity" class="form-label fw-semibold">Tingkat Aktivitas Fisik</label>
+                                <select class="form-select" id="physical_activity" name="physical_activity" required>
+                                    <option value="Low" {% if initial_data.get('physical_activity') == 'Low' %}selected{% endif %}>Low (Jarang olahraga)</option>
+                                    <option value="Light" {% if initial_data.get('physical_activity') == 'Light' %}selected{% endif %}>Light (1-2x per minggu)</option>
+                                    <option value="Moderate" {% if initial_data.get('physical_activity') == 'Moderate' or not initial_data %}selected{% endif %}>Moderate (3-5x per minggu)</option>
+                                    <option value="High" {% if initial_data.get('physical_activity') == 'High' %}selected{% endif %}>High (6-7x per minggu)</option>
+                                    <option value="Very High" {% if initial_data.get('physical_activity') == 'Very High' %}selected{% endif %}>Very High (Atlet / Latihan ganda)</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="average_sleep_hours" class="form-label fw-semibold">Rata-rata Tidur (Jam/Hari)</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.5" class="form-control" id="average_sleep_hours" name="average_sleep_hours" min="3" max="14" value="{{ initial_data.get('average_sleep_hours', 6.0) }}" required>
+                                    <span class="input-group-text">jam</span>
+                                </div>
+                                <div class="form-text small">Tidur &lt; 6 jam memicu kompensasi satiety & regenerasi sel.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section E & F: Food Preference & Budget -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 fw-bold">D</span>
+                            <h5 class="mb-0 fw-bold">Preferensi Makanan & Anggaran (Budget)</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label for="food_preference" class="form-label fw-semibold">Pola / Preferensi Pangan</label>
+                            <select class="form-select" id="food_preference" name="food_preference" required>
+                                <option value="Balanced" {% if initial_data.get('food_preference') == 'Balanced' or not initial_data %}selected{% endif %}>Balanced (Gizi Seimbang - Default)</option>
+                                <option value="High protein" {% if initial_data.get('food_preference') == 'High protein' %}selected{% endif %}>High protein (Prioritas pembentukan & pemulihan otot)</option>
+                                <option value="Low fat" {% if initial_data.get('food_preference') == 'Low fat' %}selected{% endif %}>Low fat (Rendah lemak jenuh)</option>
+                                <option value="Vegetarian" {% if initial_data.get('food_preference') == 'Vegetarian' %}selected{% endif %}>Vegetarian (Hanya nabati + telur/susu jika toleran)</option>
+                                <option value="No restriction" {% if initial_data.get('food_preference') == 'No restriction' %}selected{% endif %}>No restriction (Bebas tanpa pantangan)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="avoided_foods" class="form-label fw-semibold">Makanan yang Dihindari / Alergi (Opsional)</label>
+                            <input type="text" class="form-control" id="avoided_foods" name="avoided_foods" placeholder="Contoh: udang, susu, kacang (pisahkan koma)" value="{{ initial_data.get('avoided_foods', '') }}">
+                            <div class="form-text small">Katalog makanan yang mengandung kata kunci ini akan disaring oleh AI engine.</div>
+                        </div>
+
+                        <div>
+                            <label for="daily_food_budget" class="form-label fw-semibold">Anggaran Makanan Harian (Budget Rupiah)</label>
+                            <div class="input-group">
+                                <span class="input-group-text fw-bold">Rp</span>
+                                <input type="number" step="1000" class="form-control" id="daily_food_budget" name="daily_food_budget" min="15000" max="500000" value="{{ initial_data.get('daily_food_budget', 50000) }}" required>
+                                <span class="input-group-text">/ hari</span>
+                            </div>
+                            <div class="form-text small">Budget Fit Score menghitung apakah menu harian berada di dalam pagu anggaran Anda.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button Card -->
+                <div class="card border-0 shadow-sm rounded-4 bg-success-subtle p-3">
+                    <div class="d-flex flex-column gap-2">
+                        <button type="submit" class="btn btn-success btn-lg py-3 fw-bold d-flex align-items-center justify-content-center gap-2 shadow">
+                            <i class="bi bi-cpu-fill"></i>
+                            <span>Analisis & Dapatkan Rekomendasi Menu AI</span>
+                        </button>
+                        <p class="text-muted small text-center mb-0">
+                            Proses komputasi berjalan secara instan menggunakan modul lokal tanpa memerlukan koneksi API berbayar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('btn-demo-fill').addEventListener('click', function() {
+    document.getElementById('age').value = 25;
+    document.getElementById('gender').value = 'Male';
+    document.getElementById('weight_kg').value = 65;
+    document.getElementById('height_cm').value = 170;
+    document.getElementById('occupation_type').value = 'Moderate physical work';
+    document.getElementById('working_hours').value = '8–10 jam';
+    document.getElementById('shift').value = 'Night';
+    document.getElementById('physical_activity').value = 'Moderate';
+    document.getElementById('average_sleep_hours').value = 6;
+    document.getElementById('food_preference').value = 'Balanced';
+    document.getElementById('avoided_foods').value = '';
+    document.getElementById('daily_food_budget').value = 50000;
+    
+    // Highlight flash
+    const form = document.getElementById('assessmentForm');
+    form.classList.add('opacity-75');
+    setTimeout(() => form.classList.remove('opacity-75'), 200);
+});
+</script>
+{% endblock %}

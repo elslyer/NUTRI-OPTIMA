@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5 py-lg-6 bg-white border-bottom">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-success-subtle text-success small fw-semibold mb-3 border border-success-subtle">
+                    <i class="bi bi-shield-check"></i> Artificial Intelligence for Workforce Nutrition
+                </div>
+                <h1 class="display-4 fw-extrabold text-dark tracking-tight mb-3">
+                    NUTRI-OPTIMA
+                </h1>
+                <h2 class="h4 text-primary fw-bold mb-3">
+                    AI-Powered Personalized Nutrition for a Healthier Workforce
+                </h2>
+                <p class="lead text-muted mb-4 pe-lg-4" style="line-height: 1.7;">
+                    NUTRI-OPTIMA membantu tenaga kerja memperoleh rekomendasi gizi yang dipersonalisasi berdasarkan karakteristik individu, aktivitas kerja, pola kerja (shift), preferensi pangan, dan keterjangkauan makanan harian.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a href="{{ url_for('assessment') }}" class="btn btn-success btn-lg px-4 py-3 fw-bold shadow-sm d-flex align-items-center gap-2">
+                        <span>Mulai Assessment Gizi Pekerja</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-dark btn-lg px-4 py-3 fw-semibold">
+                        <i class="bi bi-book-fill text-success me-1"></i> Metodologi & Formula Ilmiah
+                    </a>
+                </div>
+
+                <!-- Trust Micro-Badges -->
+                <div class="row g-3 pt-2 text-muted small border-top">
+                    <div class="col-auto d-flex align-items-center gap-1">
+                        <i class="bi bi-check-circle-fill text-success"></i> Formula Mifflin-St Jeor
+                    </div>
+                    <div class="col-auto d-flex align-items-center gap-1">
+                        <i class="bi bi-check-circle-fill text-success"></i> Cosine Similarity AI
+                    </div>
+                    <div class="col-auto d-flex align-items-center gap-1">
+                        <i class="bi bi-check-circle-fill text-success"></i> Workforce Shift Aware
+                    </div>
+                    <div class="col-auto d-flex align-items-center gap-1">
+                        <i class="bi bi-check-circle-fill text-success"></i> 100% Pangan Lokal
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Feature Cards -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="bg-dark text-white p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success">Live Engine Architecture</span>
+                            <small class="text-secondary">Input → AI → Rekomendasi</small>
+                        </div>
+                        <h5 class="mt-3 mb-1 fw-bold text-white">Sistem Rekomendasi Gizi Presisi</h5>
+                        <p class="text-secondary small mb-0">Dirancang khusus untuk beban fisik & shift kerja</p>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="list-group list-group-flush gap-2">
+                            <div class="list-group-item d-flex align-items-center gap-3 border rounded-3 p-3 bg-light">
+                                <div class="icon-square bg-primary text-white rounded-3 p-2">
+                                    <i class="bi bi-person-badge fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">1. Profil Pekerja</h6>
+                                    <small class="text-muted">Beban fisik, durasi kerja, dan shift kerja malam</small>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex align-items-center gap-3 border rounded-3 p-3 bg-light">
+                                <div class="icon-square bg-success text-white rounded-3 p-2">
+                                    <i class="bi bi-cpu fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">2. AI Hybrid Engine</h6>
+                                    <small class="text-muted">Cosine similarity & optimasi makronutrien</small>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex align-items-center gap-3 border rounded-3 p-3 bg-light">
+                                <div class="icon-square bg-warning text-dark rounded-3 p-2">
+                                    <i class="bi bi-wallet2 fs-5"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">3. Budget & Sustainability</h6>
+                                    <small class="text-muted">Keterjangkauan Rupiah & skor pangan berkelanjutan</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5 Key Pillars Section -->
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="text-success fw-bold text-uppercase small tracking-wider">Pilar Inovasi Solusi</span>
+            <h3 class="fw-bold mt-1">Mengapa NUTRI-OPTIMA Berbeda?</h3>
+            <p class="text-muted mx-auto" style="max-width: 650px;">
+                Bukan sekadar kalkulator diet konvensional, melainkan decision-support system komprehensif bagi produktivitas dan kesejahteraan pekerja.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Pillar 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-lift">
+                    <div class="badge-icon bg-success-subtle text-success mb-3 p-3 rounded-3 d-inline-block">
+                        <i class="bi bi-bullseye fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">Personalized Nutrition</h5>
+                    <p class="text-muted small">
+                        Kebutuhan kalori dan makronutrien dihitung dari biometrik nyata pengguna dengan formula standar ilmiah Mifflin-St Jeor dan klasifikasi BMI WHO.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-lift">
+                    <div class="badge-icon bg-primary-subtle text-primary mb-3 p-3 rounded-3 d-inline-block">
+                        <i class="bi bi-cpu-fill fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">AI Recommendation</h5>
+                    <p class="text-muted small">
+                        Menggunakan Content-Based Recommendation dengan Cosine Similarity dan multi-objective ranking untuk mencocokkan target nutrisi dengan katalog makanan lokal.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-lift">
+                    <div class="badge-icon bg-warning-subtle text-warning mb-3 p-3 rounded-3 d-inline-block">
+                        <i class="bi bi-briefcase-fill fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">Workforce-Oriented</h5>
+                    <p class="text-muted small">
+                        Penyesuaian khusus untuk pekerja kantoran (sedentary), pekerja fisik lapangan (heavy physical), hingga penjadwalan sirkadian untuk pekerja shift malam (pre/mid/post-shift).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="col-md-6 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-lift">
+                    <div class="badge-icon bg-info-subtle text-info mb-3 p-3 rounded-3 d-inline-block">
+                        <i class="bi bi-cash-coin fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">Affordable Food (Keterjangkauan Nyata)</h5>
+                    <p class="text-muted small">
+                        Menghormati batas anggaran makan harian tenaga kerja Indonesia. Rekomendasi memprioritaskan bahan pangan lokal bergizi tinggi dengan harga realistis (tempe, tahu, ikan, sayur segar).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 5 -->
+            <div class="col-md-6 col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-lift">
+                    <div class="badge-icon bg-success-subtle text-success mb-3 p-3 rounded-3 d-inline-block">
+                        <i class="bi bi-tree-fill fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold">Sustainable Choice (Keberlanjutan Lingkungan)</h5>
+                    <p class="text-muted small">
+                        Menampilkan Prototype Sustainability Score berbasis rasio emisi karbon dan pemakaian air pangan nabati vs hewani untuk mendorong konsumsi ramah iklim dan berkelanjutan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="py-5 bg-dark text-white text-center">
+    <div class="container py-4">
+        <h3 class="fw-bold mb-2">Siap Mencoba Demonstrasi NUTRI-OPTIMA?</h3>
+        <p class="text-secondary mb-4 mx-auto" style="max-width: 600px;">
+            Gunakan mode demo satu-klik untuk langsung melihat hasil analisis tanpa perlu mengetik, atau isi profil spesifik tenaga kerja Anda.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('assessment', demo=1) }}" class="btn btn-warning btn-lg px-4 py-2 fw-bold">
+                <i class="bi bi-lightning-charge-fill me-1"></i> Buka Demo Profile (Juri)
+            </a>
+            <a href="{{ url_for('assessment') }}" class="btn btn-outline-light btn-lg px-4 py-2">
+                Isi Form Manual
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

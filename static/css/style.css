@@ -1,0 +1,64 @@
+/* NUTRI-OPTIMA Custom Stylesheet */
+:root {
+    --bs-font-sans-serif: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --dark-surface: #1e293b;
+}
+
+body {
+    font-family: var(--bs-font-sans-serif);
+    color: #334155;
+    background-color: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
+}
+
+.tracking-wider {
+    letter-spacing: 0.05em;
+}
+
+.fw-extrabold {
+    font-weight: 800;
+}
+
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.badge-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-square {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media print {
+    .navbar, footer, .btn, .breadcrumb {
+        display: none !important;
+    }
+    body {
+        background-color: #fff !important;
+    }
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+}

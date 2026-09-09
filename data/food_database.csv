@@ -1,0 +1,51 @@
+food_id,food_name,category,meal_type,calories,protein_g,carbohydrate_g,fat_g,fiber_g,price_idr,sustainability_score,vegetarian,high_protein
+1,Nasi Putih Pulen (1 porsi 150g),staple,all_day,195,4.0,43.0,0.4,0.6,3000,75,true,false
+2,Nasi Merah Organik (150g),staple,all_day,165,3.8,35.0,1.2,3.2,5000,85,true,false
+3,Oatmeal & Biji Chia (60g),staple,breakfast,220,7.5,38.0,4.0,6.5,6000,90,true,false
+4,Ubi Cilembu Panggang (150g),staple,all_day,130,2.0,30.0,0.2,4.0,4000,95,true,false
+5,Kentang Rebus Bumbu Herbal (150g),staple,all_day,125,2.8,28.0,0.2,3.0,4500,88,true,false
+6,Lontong Alami (150g),staple,all_day,180,3.5,40.0,0.3,0.8,3500,75,true,false
+7,Roti Gandum Utuh (2 lembar),staple,breakfast,160,6.0,28.0,2.5,4.0,5000,82,true,false
+8,Dada Ayam Panggang Herbal (100g),protein,lunch,165,31.0,0.0,3.6,0.0,14000,65,false,true
+9,Ayam Ungkep Bumbu Kuning (1 potong),protein,lunch,210,24.0,2.0,12.0,0.2,12000,62,false,true
+10,Ikan Kembung Bakar Rica (1 ekor),protein,lunch,180,22.0,1.0,9.0,0.0,12000,80,false,true
+11,Ikan Tongkol Balado (1 potong),protein,dinner,170,25.0,2.5,6.5,0.3,10000,78,false,true
+12,Ikan Nila Kukus Jahe (1 ekor),protein,dinner,145,26.0,0.0,3.5,0.0,13000,76,false,true
+13,Telur Rebus Omega-3 (2 butir),protein,breakfast,140,12.6,1.0,9.5,0.0,6000,72,false,true
+14,Telur Dadar Sayur Wortel (1 butir),protein,breakfast,120,7.5,2.0,9.0,0.5,4500,70,false,false
+15,Tempe Orek Manis Gurih (80g),protein,lunch,160,12.0,14.0,7.0,4.5,4000,95,true,true
+16,Tempe Bacem Panggang (2 potong),protein,dinner,150,11.5,13.0,6.5,4.2,4000,94,true,true
+17,Tahu Kukus Bumbu Kuning (2 potong),protein,dinner,110,10.0,4.0,6.0,2.5,3500,92,true,true
+18,Tahu Bacem Gurih (2 potong),protein,lunch,135,9.5,12.0,5.5,2.8,3500,90,true,false
+19,Tumis Tempe & Kacang Panjang,protein,dinner,145,9.0,11.0,7.5,4.0,5000,92,true,false
+20,Sayur Bayam Bening Jagung Manis,vegetable,lunch,65,3.0,13.0,0.5,3.5,4000,95,true,false
+21,Tumis Kangkung Terasi Bawang,vegetable,lunch,70,2.5,7.0,4.0,2.8,4000,92,true,false
+22,Sayur Asem Segar Khas Sunda,vegetable,dinner,80,2.8,16.0,1.0,4.0,4500,93,true,false
+23,Sayur Sop Bening Buncis Wortel,vegetable,dinner,75,2.5,14.0,1.2,3.5,5000,90,true,false
+24,Tumis Brokoli Wortel Jamur Tiram,vegetable,lunch,85,4.0,12.0,2.5,4.5,6500,91,true,false
+25,Capcay Sayur Kuah Kental Bening,vegetable,dinner,95,4.5,14.0,3.0,4.2,7000,88,true,false
+26,Gado-Gado Siram Sayur Komplet,vegetable,lunch,280,11.0,26.0,15.0,6.0,12000,86,true,false
+27,Pecel Sayur Madiun Tradisional,vegetable,lunch,190,8.0,22.0,8.5,5.5,8000,89,true,false
+28,Pepes Tahu Jamur Daun Kemangi,protein,dinner,95,8.0,5.0,5.0,3.0,4000,93,true,false
+29,Pepes Ikan Mas Daun Kemangi,protein,dinner,160,20.0,1.0,8.0,0.5,12000,82,false,true
+30,Pisang Ambon Matang (1 buah),fruit,snack,105,1.3,27.0,0.3,3.1,3000,96,true,false
+31,Pepaya Potong Segar (150g),fruit,snack,60,0.9,15.0,0.2,2.7,3000,95,true,false
+32,Apel Malang Segar (1 buah),fruit,snack,80,0.4,21.0,0.3,3.6,5000,92,true,false
+33,Jeruk Manis Pontianak (1 buah),fruit,snack,62,1.2,15.4,0.2,3.1,3500,94,true,false
+34,Kacang Almond Panggang (30g),snack,snack,175,6.5,6.0,15.0,3.5,8500,82,true,true
+35,Kacang Tanah Sangrai (30g),snack,snack,165,7.0,5.0,14.0,2.5,3500,88,true,true
+36,Edamame Rebus Gurih (100g),snack,snack,120,11.0,9.0,5.0,5.0,5000,94,true,true
+37,Susu UHT Low Fat (200ml),drink,breakfast,110,7.0,11.0,3.0,0.0,6000,70,true,false
+38,Susu Kedelai Murni (250ml),drink,snack,90,7.5,6.0,4.0,1.5,4500,93,true,false
+39,Yogurt Greek Plain (120g),snack,breakfast,100,12.0,4.5,3.0,0.0,9500,72,true,true
+40,Telur Puyuh Rebus (5 butir),protein,snack,70,6.0,0.5,5.0,0.0,5000,68,false,false
+41,Jus Alpukat Tanpa Gula (250ml),drink,snack,160,2.0,12.0,13.0,5.5,9000,85,true,false
+42,Bubur Ayam Sehat Tanpa Santan,staple,breakfast,210,12.0,32.0,3.5,1.5,10000,74,false,false
+43,Soto Ayam Bening Kudus (1 mangkok),protein,lunch,150,16.0,6.0,7.0,1.5,11000,72,false,true
+44,Daging Sapi Panggang Lada Hitam (80g),protein,lunch,210,22.0,3.0,12.0,0.3,22000,45,false,true
+45,Tumis Tauge Tahu Kuning,vegetable,dinner,85,6.0,7.0,4.0,2.5,4000,94,true,false
+46,Semangka Merah Segar (200g),fruit,snack,60,1.2,15.0,0.3,1.0,3500,95,true,false
+47,Roti Bakar Selai Kacang Alami,staple,breakfast,230,8.0,26.0,11.0,3.8,7500,84,true,false
+48,Omelet Bayam Keju Rendah Lemak,protein,breakfast,170,14.0,2.5,11.5,1.2,9000,71,true,true
+49,Rawon Daging Sapi Kuah Tipis,protein,dinner,220,19.0,5.0,13.0,1.0,20000,48,false,true
+50,Tumis Buncis Jagung Pipil,vegetable,dinner,75,2.5,12.0,2.0,3.2,4500,91,true,false

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Metodologi & Riset — NUTRI-OPTIMA{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill fw-bold mb-2">Scientific & Research Concept</span>
+                <h2 class="display-6 fw-bold">Konsep Ilmiah & Metodologi NUTRI-OPTIMA</h2>
+                <p class="text-muted mx-auto" style="max-width: 700px;">
+                    Dokumentasi fondasi teoritis, formula biometrik, arsitektur AI Cosine Similarity, dan metodologi rekomendasi pendukung lomba esai.
+                </p>
+            </div>
+
+            <!-- Content Cards -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4 bg-white">
+                <h4 class="fw-bold text-dark border-bottom pb-2 mb-3">1. Latar Belakang & Konsep Penelitian</h4>
+                <p class="text-muted" style="line-height: 1.8;">
+                    Kebutuhan nutrisi tenaga kerja di Indonesia kerap disamaratakan dengan pedoman diet populasi umum tanpa mempertimbangkan beban fisik pekerjaan (sedentary vs. buruh fisik berat) dan ritme kerja non-konvensional seperti shift malam. Penurunan energi, kelelahan dini, dan sindrom metabolik pada pekerja sering berakar dari ketidaksesuaian asupan kalori dan distribusi makronutrien dengan ritme sirkadian kerja. 
+                </p>
+                <p class="text-muted" style="line-height: 1.8;">
+                    <strong>NUTRI-OPTIMA (Nutrition Optimization for Workforce)</strong> hadir sebagai prototype decision-support system yang mengintegrasikan formula biometrik standar kedokteran okupasi dengan algoritma kecerdasan buatan (Content-Based Cosine Similarity & Multi-Objective Ranking) untuk menghasilkan rekomendasi pangan lokal yang terjangkau, bernutrisi presisi, dan berkelanjutan.
+                </p>
+
+                <h4 class="fw-bold text-dark border-bottom pb-2 mt-4 mb-3">2. Formula Perhitungan Kebutuhan Energi & Nutrisi</h4>
+                
+                <h6 class="fw-bold text-primary">A. Basal Metabolic Rate (BMR) — Formula Mifflin-St Jeor</h6>
+                <div class="p-3 rounded-3 bg-light border font-monospace small mb-3">
+                    Laki-laki : BMR = 10 × Berat(kg) + 6.25 × Tinggi(cm) - 5 × Usia(th) + 5<br>
+                    Perempuan : BMR = 10 × Berat(kg) + 6.25 × Tinggi(cm) - 5 × Usia(th) - 161
+                </div>
+
+                <h6 class="fw-bold text-primary">B. Penyesuaian Beban Kerja (Workforce Multiplier)</h6>
+                <p class="text-muted small">
+                    Tingkat aktivitas fisik dasar dikombinasikan dengan karakteristik okupasi:
+                </p>
+                <ul>
+                    <li class="small text-muted"><strong>Sedentary / Kantor:</strong> +0.00 multiplier</li>
+                    <li class="small text-muted"><strong>Light Physical Work:</strong> +0.05 multiplier</li>
+                    <li class="small text-muted"><strong>Moderate Physical Work:</strong> +0.15 multiplier</li>
+                    <li class="small text-muted"><strong>Heavy Physical Work:</strong> +0.30 multiplier (pekerja konstruksi/lapangan)</li>
+                    <li class="small text-muted"><strong>Durasi Kerja &gt; 8 jam:</strong> Faktor pengali tambahan +5% s.d. +10% pengeluaran energi</li>
+                </ul>
+
+                <h4 class="fw-bold text-dark border-bottom pb-2 mt-4 mb-3">3. Arsitektur AI: Hybrid Recommendation Engine</h4>
+                <p class="text-muted small">
+                    Sistem merepresentasikan setiap item makanan dalam vektor fitur 5 dimensi yang telah dinormalisasi Min-Max: <code>[Kalori, Protein, Karbohidrat, Lemak, Serat]</code>. Target nutrisi per waktu makan diproyeksikan sebagai target vektor.
+                </p>
+                
+                <h6 class="fw-bold text-success">Cosine Similarity Formula</h6>
+                <div class="p-3 rounded-3 bg-light border font-monospace small mb-3">
+                    Cosine Similarity = (A · B) / (||A|| × ||B||)
+                </div>
+
+                <h6 class="fw-bold text-success">Multi-Objective Final Scoring (Prototype)</h6>
+                <div class="p-3 rounded-3 bg-light border font-monospace small mb-3">
+                    Final Score = 0.40 × Nutrition Fit (Cosine)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.20 × Protein Fit<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.15 × Budget Fit<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.10 × Activity Fit<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.15 × Sustainability Score
+                </div>
+
+                <h4 class="fw-bold text-dark border-bottom pb-2 mt-4 mb-3">4. Prototype Sustainability Score</h4>
+                <p class="text-muted small" style="line-height: 1.7;">
+                    Skor keberlanjutan (0–100) dirancang sebagai indikator sederhana berbasis atribut pangan (Plant-based vs Animal protein, jejak emisi relatif, dan sumber lokal) untuk mendemonstrasikan integrasi aspek lingkungan hidup dalam pemilihan menu gizi pekerja, bukan sebagai pengganti kalkulasi Life Cycle Assessment (LCA) laboratoris formal.
+                </p>
+
+                <h4 class="fw-bold text-dark border-bottom pb-2 mt-4 mb-3">5. Batasan & Safety Disclaimer</h4>
+                <div class="alert alert-warning border-0 p-3 rounded-3 small">
+                    <strong>Pernyataan Keterbatasan & Keamanan:</strong> NUTRI-OPTIMA dirancang khusus sebagai prototype edukatif dan instrumen pendukung lomba esai ilmiah. Sistem ini <strong>BUKAN</strong> alat diagnosis medis dan tidak memberikan rekomendasi terapi klinis. Seluruh angka hasil perhitungan merupakan estimasi matematis berbasis model matematis populasi.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
