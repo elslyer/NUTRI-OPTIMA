@@ -17,7 +17,7 @@ export const FoodDatabaseViewer: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'calories' | 'protein' | 'price' | 'sustainability'>('calories');
-  const [selectedFoodId, setSelectedFoodId] = useState<string | null>(null);
+  const [selectedFoodId, setSelectedFoodId] = useState<number | null>(null);
 
   const filteredFoods = INITIAL_FOOD_DATABASE.filter((food) => {
     const matchSearch = food.food_name.toLowerCase().includes(searchTerm.toLowerCase());

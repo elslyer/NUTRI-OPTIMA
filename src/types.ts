@@ -4,17 +4,33 @@
 
 export type Gender = 'Male' | 'Female';
 
-export type OccupationType =
-  | 'Sedentary / pekerjaan kantor'
-  | 'Light physical work'
-  | 'Moderate physical work'
-  | 'Heavy physical work';
+export type WorkIntensity =
+  | 'Sedentary'
+  | 'Light'
+  | 'Moderate'
+  | 'Heavy'
+  | 'Very Heavy';
 
-export type WorkingHours = '< 6 jam' | '6–8 jam' | '8–10 jam' | '> 10 jam';
+export type WorkingHours =
+  | '< 8 hours/day'
+  | '8 hours/day'
+  | '8–10 hours/day'
+  | '10–12 hours/day'
+  | '> 12 hours/day';
 
-export type ShiftType = 'Morning' | 'Afternoon' | 'Night' | 'Regular daytime';
+export type ShiftType =
+  | 'Regular Daytime'
+  | 'Morning Shift'
+  | 'Afternoon Shift'
+  | 'Night Shift'
+  | 'Rotating Shift';
 
-export type PhysicalActivityLevel = 'Low' | 'Light' | 'Moderate' | 'High' | 'Very High';
+export type PhysicalActivityLevel =
+  | 'Low'
+  | 'Light'
+  | 'Moderate'
+  | 'High'
+  | 'Very High';
 
 export type FoodPreference =
   | 'Balanced'
@@ -30,10 +46,12 @@ export interface UserProfile {
   gender: Gender;
   weight_kg: number;
   height_cm: number;
-  occupation_type: OccupationType;
-  working_hours: WorkingHours;
-  shift: ShiftType;
-  physical_activity: PhysicalActivityLevel;
+  // Core Workforce Novelty Inputs
+  occupation_type: string; // e.g. "Industrial Worker", "Office / Desk Worker"
+  work_intensity: WorkIntensity; // "Sedentary" | "Light" | "Moderate" | "Heavy" | "Very Heavy"
+  working_hours: WorkingHours; // "8 hours/day", etc.
+  shift: ShiftType; // "Night Shift", "Regular Daytime", etc.
+  physical_activity: PhysicalActivityLevel; // "Low" | "Moderate", etc.
   average_sleep_hours: number;
   food_preference: FoodPreference;
   avoided_foods: string;
@@ -45,6 +63,21 @@ export interface MealSlotConfig {
   name: string;
   target_pct: number;
   desc: string;
+}
+
+export interface WorkforceImpact {
+  occupation: string;
+  work_intensity: WorkIntensity;
+  working_hours: WorkingHours;
+  shift: ShiftType;
+  physical_activity: PhysicalActivityLevel;
+  occupational_multiplier_pct: number;
+  overtime_multiplier_pct: number;
+  protein_target_per_kg: number;
+  hydration_quota_liters: number;
+  circadian_protocol_title: string;
+  circadian_protocol_desc: string;
+  statement: string;
 }
 
 export interface NutritionRequirements {
@@ -61,6 +94,7 @@ export interface NutritionRequirements {
   is_night_shift: boolean;
   meal_slots: MealSlotConfig[];
   daily_budget: number;
+  workforce_impact: WorkforceImpact;
 }
 
 export interface FoodItem {
@@ -116,4 +150,12 @@ export interface RecommendationSummary {
 export interface RecommendationResult {
   meal_plan: MealSlotResult[];
   summary: RecommendationSummary;
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: 'user' | 'assistant';
+  text: string;
+  timestamp: string;
+  source?: 'gemini' | 'domain-engine';
 }

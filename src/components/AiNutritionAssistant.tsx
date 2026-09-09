@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Markdown from 'react-markdown';
 import {
   Sparkles,
   Send,
@@ -15,21 +16,15 @@ import {
   Moon,
   ChevronRight,
 } from 'lucide-react';
-import { UserProfile, NutritionRequirements, RecommendationResult } from '../types';
+import { UserProfile, NutritionRequirements, RecommendationResult, ChatMessage } from '../types';
 
 interface AiNutritionAssistantProps {
   userProfile: UserProfile;
   nutrition: NutritionRequirements | null;
   recommendation: RecommendationResult | null;
   onGoToAssessment: () => void;
-}
-
-interface Message {
-  id: string;
-  sender: 'user' | 'assistant';
-  text: string;
-  timestamp: string;
-  source?: 'gemini' | 'domain-engine';
+  messages?: ChatMessage[];
+  setMessages?: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }
 
 const PRESET_PROMPTS = [
@@ -42,6 +37,11 @@ const PRESET_PROMPTS = [
     icon: Zap,
     title: 'Cegah "Food Coma" Siang',
     prompt: 'Bagaimana cara mencegah rasa kantuk luar biasa (food coma) pada jam 14:00 saat bekerja di kantor setelah makan siang?',
+  },
+  {
+    icon: HeartPulse,
+    title: 'Stres & Lelah Mental',
+    prompt: 'Saya merasa sangat stres dan burnout dengan beban pekerjaan akhir-akhir ini. Bagaimana cara memulihkan stamina mental dan fisik saya?',
   },
   {
     icon: Coins,
@@ -65,8 +65,10 @@ export const AiNutritionAssistant: React.FC<AiNutritionAssistantProps> = ({
   nutrition,
   recommendation,
   onGoToAssessment,
+  messages: externalMessages,
+  setMessages: setExternalMessages,
 }) => {
-  const [messages, setMessages] = useState<Message[]>(() => [
+  const [internalMessages, setInternalMessages] = useState<ChatMessage[]>(() => [
     {
       id: 'welcome-1',
       sender: 'assistant',
@@ -85,6 +87,9 @@ Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penye
     },
   ]);
 
+  const messages = externalMessages || internalMessages;
+  const setMessages = setExternalMessages || setInternalMessages;
+
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -101,7 +106,7 @@ Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penye
     const query = (textToSend || inputText).trim();
     if (!query || isLoading) return;
 
-    const userMessage: Message = {
+    const userMessage: ChatMessage = {
       id: `msg-${Date.now()}-user`,
       sender: 'user',
       text: query,
@@ -126,7 +131,7 @@ Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penye
 
       if (response.ok) {
         const data = await response.json();
-        const aiReply: Message = {
+        const aiReply: ChatMessage = {
           id: `msg-${Date.now()}-ai`,
           sender: 'assistant',
           text: data.reply || 'Mohon maaf, terjadi kendala saat memproses jawaban.',
@@ -145,7 +150,45 @@ Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penye
     let fallbackText = '';
     const qLower = query.toLowerCase();
 
-    if (qLower.includes('shift') || qLower.includes('malam') || qLower.includes('begadang')) {
+    if (qLower.includes('stres') || qLower.includes('stress') || qLower.includes('burnout') || qLower.includes('mental') || qLower.includes('lelah batin') || qLower.includes('capek')) {
+      fallbackText = `### 🧠 Manajemen Stres & Pemulihan Kelelahan Mental Kerja
+Menjaga ketahanan mental dan stabilitas emosi di lingkungan kerja adalah kunci produktivitas berkelanjutan:
+
+1. **Jeda Singkat (*Micro-Breaks*) & Teknik Pernapasan**:
+   - Terapkan teknik pernapasan ritmis (tarik napas 4 detik, tahan 4 detik, hembuskan 6 detik) saat merasa kewalahan dengan beban tugas.
+   - Luangkan waktu 3 menit setiap 90 menit bekerja untuk menatap jarak jauh atau berdiri meregangkan tubuh.
+
+2. **Dukungan Biokimia Otak Lewat Nutrisi**:
+   - **Magnesium & Vitamin B Kompleks**: Membantu meregulasi hormon stres (kortisol). Konsumsi pisang, kacang hijau, tempe, bayam, atau biji-bijian lokal.
+   - **Hindari *Sugar Crash***: Kurangi camilan atau minuman manis tinggi gula saat stres, karena lonjakan dan anjloknya insulin justru memicu kecemasan dan rasa lelah berlipat.
+
+3. **Relevansi dengan Profil Okupasi Anda**:
+   - Untuk peran **${userProfile.occupation_type}** (${userProfile.working_hours}), pastikan durasi tidur tidak kurang dari 6.5 jam dan jaga asupan air teratur minimal 2.5–3 Liter per hari.`;
+    } else if (qLower.includes('sakit kepala') || qLower.includes('pusing') || qLower.includes('migrain') || qLower.includes('pegal') || qLower.includes('leher') || qLower.includes('punggung')) {
+      fallbackText = `### 🩺 Penanganan Keluhan Sakit Kepala & Pegal Kerja
+Sakit kepala tegang (*tension headache*) atau pegal leher saat jam kerja seringkali merupakan sinyal dari kelelahan postural dan kekurangan cairan:
+
+1. **Atasi Dehidrasi Tersembunyi**:
+   - Lebih dari 50% pusing ringan di tempat kerja terjadi akibat dehidrasi ringan. Minum 1–2 gelas air mineral segera.
+2. **Peregangan Postur Kerja**:
+   - Gerakkan leher perlahan ke kiri dan kanan, putar bahu ke belakang 10 kali, dan tarik dagu ke belakang (*chin tuck*) untuk meredakan kompresi servikal.
+3. **Asupan Elektrolit Ringan**:
+   - Konsumsi sepotong pisang atau buah berair yang mengandung kalium untuk menyeimbangkan tonus neuromuskular.
+4. **Catatan Keselamatan**:
+   - Jika sakit kepala sangat tajam, mendadak, atau disertai mual hebat/gangguan pandangan, segera beristirahat di ruang kesehatan atau konsultasikan ke dokter.`;
+    } else if (qLower.includes('olahraga') || qLower.includes('workout') || qLower.includes('gym') || qLower.includes('kardio') || qLower.includes('jalan')) {
+      fallbackText = `### 🏃 Panduan Olahraga Praktis Bagi Pekerja
+Bagi pekerja aktif dengan jadwal harian padat:
+
+1. **Pilihan Waktu Olahraga Sesuai Shift**:
+   - Untuk shift **${userProfile.shift}**, waktu ideal adalah 30 menit sebelum memulai jam kerja atau seusai jam kerja sore.
+   - Hindari olahraga berat dalam rentang 2 jam sebelum jadwal tidur utama agar suhu tubuh tidak mengganggu melatonin.
+2. **Kesesuaian Tuntutan Fisik Kerja**:
+   - **Pekerja Duduk / Kantoran**: Utamakan latihan kardio (jalan cepat, joging, skipping) untuk melancarkan sirkulasi pembuluh darah.
+   - **Pekerja Industri / Fisik**: Utamakan latihan peregangan fleksibilitas (*stretching*) dan mobilitas punggung bawah guna mencegah cedera muskuloskeletal.
+3. **Dukungan Gizi Pemulihan**:
+   - Penuhi target protein harian Anda (**${nutrition?.target_protein_g || 85} gram**) untuk menjaga massa otot tetap prima.`;
+    } else if (qLower.includes('shift') || qLower.includes('malam') || qLower.includes('begadang')) {
       fallbackText = `### 🌙 Strategi Nutrisi Ritme Sirkadian (Shift Malam)
 Berdasarkan profil shift **${userProfile.shift}** Anda:
 
@@ -196,20 +239,24 @@ Untuk intensitas pekerjaan **${userProfile.occupation_type}**:
 3. **Kombinasi Pemulihan**:
    - Konsumsi campuran karbohidrat dan protein dalam rasio 3:1 dalam rentang 1 jam seusai jam kerja fisik (contoh: pisang + susu atau nasi tim telur).`;
     } else {
-      fallbackText = `### 💡 Panduan Gizi Presisi NUTRI-OPTIMA
-Halo! Berdasarkan profil kerja Anda (${userProfile.gender === 'Male' ? 'Pria' : 'Wanita'}, ${userProfile.age} th, ${userProfile.occupation_type}):
+      fallbackText = `### 💬 Konsultasi Adaptif & Bertanggung Jawab NUTRI-AI
+Terima kasih atas pertanyaannya! Meskipun pertanyaan ini cukup luas atau di luar konteks gizi kerja langsung, saya tetap siap memberikan panduan yang bijak dan solutif:
 
-- **Target Kalori Harian (TDEE)**: **${nutrition?.daily_calories || 2300} kkal**
-- **Target Protein**: **${nutrition?.target_protein_g || 80} gram** (pembagian rata di setiap sesi makan)
-- **Status IMT**: ${nutrition?.bmi || 'Normal'} kg/m² (${nutrition?.bmi_category || 'Normal'})
-- **Pola Shift**: ${userProfile.shift}
+1. **Fokus pada Vitalitas & Produktivitas Harian**:
+   - Tantangan keseharian di tempat kerja selalu berkaitan erat dengan energi biologis, ketenangan mental, dan keteraturan pola istirahat.
+   - Bila Anda membutuhkan solusi atas keluhan fisik atau kebiasaan kerja, langkah pertama yang paling berdampak adalah menjaga hidrasi teratur dan pola tidur yang konsisten.
 
-**Saran Implementasi:**
-- Jaga konsistensi jadwal makan harian dan pastikan asupan air minimal 2.5–3 Liter per hari.
-- Untuk pertanyaan spesifik, Anda dapat menggunakan tombol pilihan cepat di bawah atau menanyakan menu pangan lokal pengganti!`;
+2. **Korelasinya dengan Profil Kerja Anda**:
+   - **Okupasi**: ${userProfile.occupation_type} (${userProfile.work_intensity || 'Moderate'} intensity)
+   - **Jam Kerja & Shift**: ${userProfile.working_hours}, ${userProfile.shift}
+   - **Target Energi Harian**: ${nutrition?.daily_calories || 2300} kkal
+   - **Target Protein**: ${nutrition?.target_protein_g || 85} gram
+
+3. **Langkah Lanjutan**:
+   - Silakan tanyakan hal lain seputar menu pangan lokal hemat, strategi ritme makan shift, penanganan stres kerja, atau substitusi lauk harian!`;
     }
 
-    const fallbackReply: Message = {
+    const fallbackReply: ChatMessage = {
       id: `msg-${Date.now()}-ai`,
       sender: 'assistant',
       text: fallbackText,
@@ -221,15 +268,14 @@ Halo! Berdasarkan profil kerja Anda (${userProfile.gender === 'Male' ? 'Pria' : 
   };
 
   const handleResetChat = () => {
-    setMessages([
-      {
-        id: `welcome-${Date.now()}`,
-        sender: 'assistant',
-        text: `Percakapan telah direset. Saya siap membantu konsultasi gizi kerja, perencanaan menu berbasis budget Rp ${userProfile.daily_food_budget.toLocaleString('id-ID')}, atau panduan ritme sirkadian shift ${userProfile.shift} Anda. Ada yang ingin Anda diskusikan?`,
-        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-        source: 'domain-engine',
-      },
-    ]);
+    const resetWelcome: ChatMessage = {
+      id: `welcome-${Date.now()}`,
+      sender: 'assistant',
+      text: `Percakapan telah direset. Saya siap membantu konsultasi gizi kerja, perencanaan menu berbasis budget Rp ${userProfile.daily_food_budget.toLocaleString('id-ID')}, atau panduan ritme sirkadian shift ${userProfile.shift} Anda. Ada yang ingin Anda diskusikan?`,
+      timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      source: 'domain-engine',
+    };
+    setMessages([resetWelcome]);
   };
 
   return (
@@ -365,21 +411,37 @@ Halo! Berdasarkan profil kerja Anda (${userProfile.gender === 'Male' ? 'Pria' : 
                   </div>
 
                   {/* Body Text */}
-                  <div className="whitespace-pre-line space-y-2">
-                    {msg.text.split('\n\n').map((paragraph, pIdx) => {
-                      if (paragraph.startsWith('### ')) {
-                        return (
-                          <h4 key={pIdx} className="font-bold text-sm text-emerald-800 dark:text-emerald-400 pt-1">
-                            {paragraph.replace('### ', '')}
-                          </h4>
-                        );
-                      }
-                      return (
-                        <p key={pIdx} className="leading-relaxed">
-                          {paragraph}
-                        </p>
-                      );
-                    })}
+                  <div className={`markdown-body text-xs sm:text-sm leading-relaxed ${isUser ? 'text-white' : 'text-slate-800 dark:text-slate-100'}`}>
+                    <Markdown
+                      components={{
+                        h3: ({ node, ...props }) => (
+                          <h3 className={`font-extrabold text-sm sm:text-base mt-2 mb-1.5 pb-1 border-b ${isUser ? 'border-white/20 text-white' : 'border-slate-200 dark:border-slate-700 text-emerald-700 dark:text-emerald-400'}`} {...props} />
+                        ),
+                        h4: ({ node, ...props }) => (
+                          <h4 className={`font-bold text-xs sm:text-sm mt-2 mb-1 ${isUser ? 'text-white' : 'text-emerald-700 dark:text-emerald-400'}`} {...props} />
+                        ),
+                        strong: ({ node, ...props }) => (
+                          <strong className={`font-black ${isUser ? 'text-white underline decoration-white/50' : 'text-slate-900 dark:text-white'}`} {...props} />
+                        ),
+                        p: ({ node, ...props }) => (
+                          <p className="leading-relaxed mb-2.5 last:mb-0" {...props} />
+                        ),
+                        ul: ({ node, ...props }) => (
+                          <ul className="list-disc pl-5 space-y-1 mb-2.5" {...props} />
+                        ),
+                        ol: ({ node, ...props }) => (
+                          <ol className="list-decimal pl-5 space-y-1 mb-2.5" {...props} />
+                        ),
+                        li: ({ node, ...props }) => (
+                          <li className="leading-relaxed" {...props} />
+                        ),
+                        blockquote: ({ node, ...props }) => (
+                          <blockquote className={`border-l-2 pl-3 py-1 italic text-xs my-2 ${isUser ? 'border-white/60 text-white/90' : 'border-emerald-500 text-slate-600 dark:text-slate-300'}`} {...props} />
+                        ),
+                      }}
+                    >
+                      {msg.text}
+                    </Markdown>
                   </div>
 
                   {/* Source indicator for assistant */}

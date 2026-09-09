@@ -47,11 +47,12 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         gender: 'Male',
         weight_kg: 68,
         height_cm: 172,
-        occupation_type: 'Moderate physical work',
-        working_hours: '8–10 jam',
-        shift: 'Night',
+        occupation_type: 'Industrial Worker',
+        work_intensity: 'Moderate',
+        working_hours: '8 hours/day',
+        shift: 'Night Shift',
         physical_activity: 'Moderate',
-        average_sleep_hours: 6,
+        average_sleep_hours: 6.5,
         food_preference: 'Balanced',
         avoided_foods: 'makanan terlalu pedas',
         daily_food_budget: 50000,
@@ -62,12 +63,13 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         gender: 'Female',
         weight_kg: 56,
         height_cm: 160,
-        occupation_type: 'Sedentary (Kantor/Desk)',
-        working_hours: '< 8 jam',
-        shift: 'Regular',
+        occupation_type: 'Office / Desk Worker',
+        work_intensity: 'Sedentary',
+        working_hours: '8 hours/day',
+        shift: 'Regular Daytime',
         physical_activity: 'Light',
         average_sleep_hours: 7,
-        food_preference: 'High Protein',
+        food_preference: 'High protein',
         avoided_foods: 'udang',
         daily_food_budget: 65000,
       });
@@ -77,9 +79,10 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         gender: 'Male',
         weight_kg: 74,
         height_cm: 174,
-        occupation_type: 'Heavy physical work',
-        working_hours: '> 10 jam',
-        shift: 'Morning',
+        occupation_type: 'Construction & Heavy Labor',
+        work_intensity: 'Heavy',
+        working_hours: '10–12 hours/day',
+        shift: 'Morning Shift',
         physical_activity: 'High',
         average_sleep_hours: 6.5,
         food_preference: 'Balanced',
@@ -252,90 +255,139 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
           </div>
         </div>
 
-        {/* Section 2: Beban Kerja Okupasi */}
-        <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5 transition-colors">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
-            <Briefcase className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <span>2. Karakteristik Beban Kerja Okupasi</span>
+        {/* Section 2: Workforce Profile — Core Novelty */}
+        <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border-2 border-emerald-500/30 dark:border-emerald-500/30 shadow-xs space-y-6 transition-colors relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-bl-xl tracking-wider flex items-center gap-1">
+            <Briefcase className="w-3 h-3" />
+            <span>Core Novelty</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {/* Occupation Type */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Kategori Beban Kerja
+          <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-lg">
+              <Briefcase className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <span>2. Workforce Profile (Karakteristik Tenaga Kerja)</span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              Parameter inti algoritma <em>Workforce-Aware Nutrition</em> untuk mengkalkulasi kebutuhan metabolik okupasi, ritme sirkadian, dan pemulihan stamina kerja.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* 1. Jenis Pekerjaan (Occupation) */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span>Jenis Pekerjaan (Occupation)</span>
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Parameter 1</span>
               </label>
               <select
                 value={formData.occupation_type}
                 onChange={(e) => handleChange('occupation_type', e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-medium"
               >
-                <option value="Sedentary (Kantor/Desk)">Sedentary (Kantor / Duduk &gt;75% waktu)</option>
-                <option value="Light physical work">Ringan (Guru, Tenaga Penjualan Toko)</option>
-                <option value="Moderate physical work">Sedang (Perawat, Gudang, Manufaktur)</option>
-                <option value="Heavy physical work">Berat (Buruh Konstruksi, Tambang, Pertanian)</option>
+                <option value="Industrial Worker">Industrial Worker (Pabrik & Manufaktur)</option>
+                <option value="Office / Desk Worker">Office / Desk Worker (Kantoran, IT, Administrasi)</option>
+                <option value="Healthcare & Hospital Staff">Healthcare & Hospital Staff (Dokter, Perawat, Nakes)</option>
+                <option value="Construction & Heavy Labor">Construction & Heavy Labor (Konstruksi & Buruh Lapangan)</option>
+                <option value="Driver & Logistics">Driver & Logistics (Sopir, Kurir, & Pergudangan)</option>
+                <option value="Service & Hospitality">Service & Hospitality (Pelayanan, F&B, Ritel)</option>
+                <option value="Agricultural / Field Worker">Agricultural / Field Worker (Pertanian & Perkebunan)</option>
               </select>
+              <p className="text-[10px] text-slate-400 mt-1">
+                Mengidentifikasi profil tuntutan kerja ergonomis dan stresor lingkungan.
+              </p>
             </div>
 
-            {/* Working Hours */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Durasi Jam Kerja Harian
+            {/* 2. Intensitas Pekerjaan (Work Intensity) */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span>Intensitas Pekerjaan (Work Intensity)</span>
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Parameter 2</span>
+              </label>
+              <select
+                value={formData.work_intensity || 'Moderate'}
+                onChange={(e) => handleChange('work_intensity', e.target.value)}
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-medium"
+              >
+                <option value="Sedentary">Sedentary (Duduk &gt;75% waktu, minim gerak)</option>
+                <option value="Light">Light (Berdiri / jalan santai, angkat beban &lt;5kg)</option>
+                <option value="Moderate">Moderate (Banyak gerak, angkat 5-20kg, operasional mesin)</option>
+                <option value="Heavy">Heavy (Aktivitas fisik intensif, angkut beban berat &gt;20kg)</option>
+                <option value="Very Heavy">Very Heavy (Kerja fisik ekstrem berkelanjutan)</option>
+              </select>
+              <p className="text-[10px] text-slate-400 mt-1">
+                Menyesuaikan multiplier metabolik okupasi dan sintesis protein per kg berat.
+              </p>
+            </div>
+
+            {/* 3. Jam Kerja Harian (Working Hours) */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span>Jam Kerja Harian (Working Hours)</span>
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Parameter 3</span>
               </label>
               <select
                 value={formData.working_hours}
                 onChange={(e) => handleChange('working_hours', e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-medium"
               >
-                <option value="< 8 jam">&lt; 8 Jam / Hari (Standar)</option>
-                <option value="8–10 jam">8–10 Jam / Hari (Lembur Ringan)</option>
-                <option value="> 10 jam">&gt; 10 Jam / Hari (Lembur Tinggi / Extended Shift)</option>
+                <option value="< 8 hours/day">&lt; 8 hours/day (Paruh Waktu / Shift Singkat)</option>
+                <option value="8 hours/day">8 hours/day (Standar Kerja Harian)</option>
+                <option value="8–10 hours/day">8–10 hours/day (Lembur Moderat)</option>
+                <option value="10–12 hours/day">10–12 hours/day (Shift Panjang / Extended Shift)</option>
+                <option value="> 12 hours/day">&gt; 12 hours/day (Double Shift / Lembur Berat)</option>
               </select>
+              <p className="text-[10px] text-slate-400 mt-1">
+                Mempengaruhi faktor kelelahan kumulatif dan kompensasi kalori lembur.
+              </p>
             </div>
 
-            {/* Shift Work */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Jadwal Shift Kerja (Sirkadian)
+            {/* 4. Shift Kerja (Shift) */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span>Pola Shift Kerja (Shift)</span>
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Parameter 4</span>
               </label>
               <select
                 value={formData.shift}
                 onChange={(e) => handleChange('shift', e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-medium"
               >
-                <option value="Morning">Pagi / Siang (Regular 08:00 - 17:00)</option>
-                <option value="Night">Shift Malam (Nocturnal / Melintasi Tengah Malam)</option>
-                <option value="Rotating">Shift Bergilir (Rotating / 3-Shift System)</option>
+                <option value="Regular Daytime">Regular Daytime (08:00 – 17:00)</option>
+                <option value="Morning Shift">Morning Shift (06:00 – 14:00)</option>
+                <option value="Afternoon Shift">Afternoon Shift (14:00 – 22:00)</option>
+                <option value="Night Shift">Night Shift (22:00 – 06:00 / Nocturnal)</option>
+                <option value="Rotating Shift">Rotating Shift (Sistem 3-Shift Bergilir)</option>
               </select>
+              <p className="text-[10px] text-slate-400 mt-1">
+                Menentukan alokasi waktu makan sirkadian (chrono-nutrition).
+              </p>
             </div>
-          </div>
-        </div>
 
-        {/* Section 3: Gaya Hidup & Aktivitas */}
-        <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5 transition-colors">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
-            <Activity className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <span>3. Gaya Hidup & Kebiasaan Istirahat</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Tingkat Aktivitas Fisik Di Luar Pekerjaan
+            {/* 5. Aktivitas Fisik (Physical Activity) */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center justify-between">
+                <span>Aktivitas Fisik Luar Kerja (Physical Activity)</span>
+                <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">Parameter 5</span>
               </label>
               <select
                 value={formData.physical_activity}
                 onChange={(e) => handleChange('physical_activity', e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-medium"
               >
-                <option value="Low">Rendah (Jarang olahraga / mayoritas rebahan)</option>
-                <option value="Moderate">Sedang (Jalan santai / olahraga 1-3x per minggu)</option>
-                <option value="High">Tinggi (Olahraga intensif / aktif bergerak 4-6x seminggu)</option>
+                <option value="Low">Low (Jarang bergerak / santai di luar kerja)</option>
+                <option value="Light">Light (Jalan santai / peregangan 1-2x per minggu)</option>
+                <option value="Moderate">Moderate (Olahraga rekreasi 2-3x per minggu)</option>
+                <option value="High">High (Latihan fisik teratur 4-5x per minggu)</option>
+                <option value="Very High">Very High (Latihan intensif harian / atlet)</option>
               </select>
+              <p className="text-[10px] text-slate-400 mt-1">
+                Faktor aktivitas dasar tubuh di luar beban kerja okupasi.
+              </p>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            {/* Sleep Duration */}
+            <div className="lg:col-span-1">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
                 Rata-rata Durasi Tidur (Jam / Hari)
               </label>
               <input
@@ -348,6 +400,9 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 onChange={(e) => handleChange('average_sleep_hours', parseFloat(e.target.value) || 6)}
                 className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
               />
+              <p className="text-[10px] text-slate-400 mt-1">
+                Digunakan untuk mendeteksi potensi stres oksidatif & resistensi insulin.
+              </p>
             </div>
           </div>
         </div>
@@ -356,7 +411,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5 transition-colors">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
             <Coins className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <span>4. Preferensi Pangan & Batas Anggaran (IDR)</span>
+            <span>3. Preferensi Pangan & Batas Anggaran (IDR)</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

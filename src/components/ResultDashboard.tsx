@@ -103,6 +103,131 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
         </div>
       </div>
 
+      {/* CORE NOVELTY: WORKFORCE PROFILE SIGNATURE CARD */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-500/20 relative overflow-hidden">
+        {/* Subtle decorative background glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 space-y-6">
+          {/* Header Row */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-white/10">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-extrabold uppercase tracking-wider mb-1.5">
+                <Briefcase className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Core Novelty &bull; Occupational Nutrition Engine</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">
+                WORKFORCE PROFILE
+              </h3>
+            </div>
+            <div className="text-right sm:text-right">
+              <span className="text-xs text-emerald-300/80 font-medium block">Specialized Framework</span>
+              <span className="text-xs font-bold text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/10 inline-block mt-0.5">
+                Nourishing the Workforce
+              </span>
+            </div>
+          </div>
+
+          {/* 5 Core Workforce Parameters Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            {/* 1. Occupation */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs hover:bg-white/10 transition-colors">
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                Occupation
+              </span>
+              <p className="text-base sm:text-lg font-extrabold text-white mt-1 leading-snug">
+                {userProfile.occupation_type || 'Industrial Worker'}
+              </p>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Peran Kerja Utama</span>
+            </div>
+
+            {/* 2. Work Intensity */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs hover:bg-white/10 transition-colors">
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                Work Intensity
+              </span>
+              <p className="text-base sm:text-lg font-extrabold text-white mt-1 leading-snug">
+                {userProfile.work_intensity || 'Moderate'}
+              </p>
+              <span className="text-[10px] text-slate-400 block mt-0.5">
+                +{nutrition.workforce_impact?.occupational_multiplier_pct || 25}% Beban Metabolik
+              </span>
+            </div>
+
+            {/* 3. Working Hours */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs hover:bg-white/10 transition-colors">
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                Working Hours
+              </span>
+              <p className="text-base sm:text-lg font-extrabold text-white mt-1 leading-snug">
+                {userProfile.working_hours || '8 hours/day'}
+              </p>
+              <span className="text-[10px] text-slate-400 block mt-0.5">
+                {nutrition.workforce_impact?.overtime_multiplier_pct ? `+${nutrition.workforce_impact.overtime_multiplier_pct}% Jam Lembur` : 'Durasi Harian Standar'}
+              </span>
+            </div>
+
+            {/* 4. Shift */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs hover:bg-white/10 transition-colors">
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                Shift
+              </span>
+              <p className="text-base sm:text-lg font-extrabold text-white mt-1 leading-snug flex items-center gap-1.5">
+                {userProfile.shift || 'Night Shift'}
+              </p>
+              <span className="text-[10px] text-slate-400 block mt-0.5">
+                Ritme Sirkadian
+              </span>
+            </div>
+
+            {/* 5. Physical Activity */}
+            <div className="col-span-2 sm:col-span-1 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xs hover:bg-white/10 transition-colors">
+              <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                Physical Activity
+              </span>
+              <p className="text-base sm:text-lg font-extrabold text-white mt-1 leading-snug">
+                {userProfile.physical_activity || 'Moderate'}
+              </p>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Aktivitas Luar Kerja</span>
+            </div>
+          </div>
+
+          {/* Statement & Algorithmic Impact Summary */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                <CheckCircle className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-base sm:text-lg font-extrabold text-emerald-200 tracking-tight">
+                  Your nutrition recommendation is adjusted according to your work characteristics.
+                </p>
+                <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                  {nutrition.workforce_impact?.circadian_protocol_desc || 'Sistem telah mengoptimasi jendela makan sirkadian, target asam amino pemulihan otot, dan kuota hidrasi harian.'}
+                </p>
+              </div>
+            </div>
+
+            {/* Precision Quotas derived from workforce */}
+            <div className="flex flex-wrap items-center gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/10">
+              <div className="px-3 py-1.5 rounded-xl bg-white/10 text-center border border-white/10">
+                <span className="text-[10px] text-slate-400 block uppercase font-bold">Protein Target</span>
+                <span className="text-xs font-black text-emerald-300">
+                  {nutrition.workforce_impact?.protein_target_per_kg || 1.5} g/kg BB
+                </span>
+              </div>
+              <div className="px-3 py-1.5 rounded-xl bg-white/10 text-center border border-white/10">
+                <span className="text-[10px] text-slate-400 block uppercase font-bold">Hidrasi Kerja</span>
+                <span className="text-xs font-black text-emerald-300">
+                  {nutrition.workforce_impact?.hydration_quota_liters || 3.2} L / hari
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Row 1: 4 Key Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Overall Match Score */}

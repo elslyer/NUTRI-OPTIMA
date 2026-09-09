@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { UserProfile, NutritionRequirements, RecommendationResult } from './types';
+import { UserProfile, NutritionRequirements, RecommendationResult, ChatMessage } from './types';
 import { calculateNutritionRequirements } from './utils/nutritionEngine';
 import { generateRecommendation } from './utils/aiEngine';
 import { Navbar } from './components/Navbar';
@@ -21,15 +21,35 @@ const INITIAL_USER_PROFILE: UserProfile = {
   gender: 'Male',
   weight_kg: 68,
   height_cm: 172,
-  occupation_type: 'Moderate physical work',
-  working_hours: '8–10 jam',
-  shift: 'Night',
+  occupation_type: 'Industrial Worker',
+  work_intensity: 'Moderate',
+  working_hours: '8 hours/day',
+  shift: 'Night Shift',
   physical_activity: 'Moderate',
   average_sleep_hours: 6.5,
   food_preference: 'Balanced',
   avoided_foods: '',
   daily_food_budget: 55000,
 };
+
+const createInitialAiMessages = (profile: UserProfile, nut: NutritionRequirements | null): ChatMessage[] => [
+  {
+    id: 'welcome-1',
+    sender: 'assistant',
+    text: `Halo! Saya **NUTRI-AI**, konsultan kecerdasan buatan spesialis gizi okupasi dan kesehatan tenaga kerja dari platform NUTRI-OPTIMA.
+
+Saya telah memuat data profil kerja Anda:
+- **Okupasi**: ${profile.occupation_type} (${profile.working_hours})
+- **Pola Shift**: ${profile.shift}
+- **Target Energi (TDEE)**: ${nut ? `${nut.daily_calories} kkal/hari` : 'Terhitung otomatis'}
+- **Target Protein**: ${nut ? `${nut.target_protein_g} gram` : 'Optimal'}
+- **Anggaran Pangan Harian**: Rp ${profile.daily_food_budget.toLocaleString('id-ID')}
+
+Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penyesuaian jadwal makan, pilihan lauk lokal hemat, mengatasi kelelahan lembur, atau substitusi menu!`,
+    timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+    source: 'domain-engine',
+  },
+];
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<
@@ -65,6 +85,29 @@ export default function App() {
     const initNut = calculateNutritionRequirements(INITIAL_USER_PROFILE);
     return generateRecommendation(INITIAL_USER_PROFILE, initNut);
   });
+
+  // Persistent AI Assistant chat history: never resets when switching tabs/icons
+  const [aiMessages, setAiMessages] = useState<ChatMessage[]>(() => {
+    try {
+      const saved = localStorage.getItem('nutri_ai_chat_history');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // ignore
+    }
+    const initNut = calculateNutritionRequirements(INITIAL_USER_PROFILE);
+    return createInitialAiMessages(INITIAL_USER_PROFILE, initNut);
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('nutri_ai_chat_history', JSON.stringify(aiMessages));
+    } catch {
+      // ignore
+    }
+  }, [aiMessages]);
 
   const handleProfileSubmit = (profile: UserProfile) => {
     setUserProfile(profile);
@@ -148,17 +191,20 @@ export default function App() {
 
         {currentTab === 'methodology' && <MethodologyView />}
 
-        {currentTab === 'ai-assistant' && (
+        {/* AI Assistant view kept mounted so tab/icon switches never reset the conversation */}
+        <div className={currentTab === 'ai-assistant' ? 'block' : 'hidden'}>
           <AiNutritionAssistant
             userProfile={userProfile}
             nutrition={nutrition}
             recommendation={recommendation}
+            messages={aiMessages}
+            setMessages={setAiMessages}
             onGoToAssessment={() => {
               setCurrentTab('assessment');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
-        )}
+        </div>
       </main>
 
       {/* Footer */}

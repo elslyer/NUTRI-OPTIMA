@@ -97,13 +97,20 @@ async function startServer() {
 - Status IMT: ${nutrition.bmi} kg/m² (${nutrition.bmi_category})`
         : "";
 
-      const systemInstruction = `Anda adalah "NUTRI-AI", asisten kecerdasan buatan spesialis gizi okupasi dan kesehatan tenaga kerja Indonesia dari aplikasi NUTRI-OPTIMA.
-Tugas Anda:
-1. Memberikan rekomendasi, edukasi, dan solusi praktis terkait nutrisi pekerja (shift malam, pekerja kantor sedentary, pekerja lapangan fisik berat).
-2. Memprioritaskan bahan pangan lokal Indonesia yang bergizi, ramah kantong, dan berkelanjutan (seperti tempe, tahu, telur, ikan kembung, pisang, bayam, singkong, dll).
-3. Memberikan panduan ritme sirkadian kerja (waktu makan sebelum shift, saat istirahat kerja, dan pasca-shift agar tidur tetap nyenyak).
-4. Menjelaskan secara ramah, terstruktur, berbasis data ilmiah (mengacu AKG Permenkes No. 28/2019 dan riset gizi kerja), dengan format Markdown yang mudah dibaca (bullet point, bolding).
-5. Selalu sertakan catatan etika medis singkat jika ada kondisi patologis khusus (diabetes, hipertensi akut).
+      const systemInstruction = `Anda adalah "NUTRI-AI", asisten kecerdasan buatan spesialis gizi okupasi dan kesehatan tenaga kerja Indonesia dari platform NUTRI-OPTIMA ("Nourishing the Workforce").
+
+PRINSIP RESPONSIBILITAS & KELUWESAN ADAPTIF:
+1. Responsible & Helpful AI:
+   - Jika pengguna menanyakan hal-hal yang berada di luar konteks gizi kerja murni (seperti stres kerja, burnout mental, ergonomi meja kantor, sakit kepala/pegal, manajemen waktu kerja, tips tidur, kebiasaan kopi, olahraga kardio, suplemen, atau topik umum lainnya):
+   - JANGAN PERNAH menolak, menepis, atau berkata kaku seperti "saya hanya asisten gizi".
+   - JAWABLAH DENGAN LENGKAP, EMPATIK, DAN SOLUTIF sesuai pertanyaan pengguna.
+   - Setelah memberikan jawaban yang solutif, hubungkan secara bijak dan elegan dengan aspek stamina fisik, hidrasi, ritme sirkadian kerja, dan pemulihan nutrisi harian pengguna.
+2. Pilar Workforce-Aware Nutrition:
+   - Selalu pertimbangkan karakteristik kerja pengguna: Jenis Pekerjaan (${userProfile?.occupation_type || 'Industrial Worker'}), Intensitas (${userProfile?.work_intensity || 'Moderate'}), Jam Kerja (${userProfile?.working_hours || '8 hours/day'}), dan Shift (${userProfile?.shift || 'Night Shift'}).
+   - Prioritaskan bahan pangan lokal Indonesia yang terjangkau, bergizi, dan mudah didapat (tempe, tahu, telur, ikan kembung, bayam, pisang, dll).
+3. Gaya Penulisan:
+   - Bersahabat, profesional, terstruktur rapi dengan Markdown (bullet points, bolding).
+   - Selalu sertakan catatan etika medis profesional jika ada keluhan klinis berat.
 
 Informasi Biometrik & Okupasi Pekerja Saat Ini:
 ${profileSummary}
@@ -138,7 +145,45 @@ ${nutritionSummary}`;
       const lower = message.toLowerCase();
       let fallbackReply = "";
 
-      if (lower.includes("shift") || lower.includes("malam") || lower.includes("begah") || lower.includes("tidur")) {
+      if (lower.includes("stres") || lower.includes("stress") || lower.includes("burnout") || lower.includes("mental") || lower.includes("lelah batin") || lower.includes("capek pikiran")) {
+        fallbackReply = `### 🧠 Manajemen Stres & Pencegahan Burnout Tenaga Kerja
+Menjaga kesehatan mental dan fisik di tempat kerja adalah bagian tak terpisahkan dari produktivitas yang berkelanjutan:
+
+1. **Teknik 'Micro-Breaks' & Latihan Pernapasan**:
+   - Terapkan teknik pernapasan 4-7-8 (tarik napas 4 detik, tahan 7 detik, hembuskan 8 detik) saat merasakan lonjakan stres atau tekanan kerja tinggi.
+   - Ambil jeda 2–3 menit setiap 90 menit bekerja untuk mengalihkan pandangan dari layar atau mesin produksi.
+
+2. **Dukungan Nutrisi Penstabil Neurotransmiter**:
+   - **Magnesium & Vitamin B Kompleks**: Membantu menurunkan produksi kortisol berlebih. Sumber lokal terbaik: pisang, kacang hijau, tempe, dan bayam.
+   - **Hindari 'Emotional Eating' Makanan Manis**: Lonjakan gula darah dari camilan manis sesaat akan memicu *crash* energi yang memperparah kecemasan.
+
+3. **Korelasinya dengan Profil Anda**:
+   - Dengan beban kerja **${userProfile?.occupation_type || 'Industrial Worker'}** (${userProfile?.working_hours || '8 jam/hari'}), pastikan waktu istirahat tidur Anda tidak terkompromi (minimal 6–7 jam berkualitas).`;
+      } else if (lower.includes("sakit kepala") || lower.includes("pusing") || lower.includes("migrain") || lower.includes("pegal") || lower.includes("leher") || lower.includes("punggung")) {
+        fallbackReply = `### 🩺 Penanganan Sakit Kepala & Pegal Otot Saat Bekerja
+Keluhan fisik seperti sakit kepala tegang (*tension headache*) atau pegal leher sering dialami pekerja akibat beban postur atau dehidrasi:
+
+1. **Evaluasi Dehidrasi Dini**:
+   - Lebih dari 60% sakit kepala ringan di tempat kerja dipicu oleh dehidrasi terselubung. Minum 1–2 gelas air putih bersuhu ruang segera.
+2. **Peregangan Ergonomis Sederhana**:
+   - Lakukan peregangan leher (*chin tuck*), putar bahu ke belakang 10 kali, dan regangkan pergelangan tangan untuk meredakan ketegangan vaskular.
+3. **Pemberian Asupan Elektrolit Ringan**:
+   - Konsumsi buah segar seperti pisang atau air kelapa yang kaya kalium untuk menyeimbangkan tonus otot.
+4. **Catatan Keselamatan**:
+   - Jika sakit kepala terasa sangat hebat mendadak, disertai pandangan kabur atau kebas separuh badan, segera istirahat dan periksakan diri ke poliklinik perusahaan atau fasilitas kesehatan terdekat.`;
+      } else if (lower.includes("olahraga") || lower.includes("workout") || lower.includes("gym") || lower.includes("kardio") || lower.includes("lari")) {
+        fallbackReply = `### 🏃 Strategi Olahraga Efektif di Tengah Kesibukan Kerja
+Untuk pekerja dengan aktivitas **${userProfile?.occupation_type || 'Tenaga Kerja'}** (${userProfile?.working_hours || '8 jam/hari'}):
+
+1. **Waktu Latihan yang Tepat**:
+   - Jika shift Anda adalah **${userProfile?.shift || 'Regular Daytime'}**, sesi olahraga 20–30 menit sebelum shift (pagi) atau setelah shift sore adalah pilihan terbaik.
+   - Hindari latihan intensitas tinggi kurang dari 2 jam sebelum waktu tidur karena meningkatkan suhu inti tubuh dan mengganggu pelepasan melatonin.
+2. **Kombinasi Latihan Fungsional**:
+   - **Pekerja Kantor (Sedentary)**: Fokus pada kardio aerobik (jalan cepat, lari, bersepeda) untuk menjaga kebugaran kardiovaskular.
+   - **Pekerja Fisik/Industri**: Fokus pada mobilitas sendi, peregangan otot fleksor pinggul, dan penguatan *core* punggung bawah guna mencegah cedera kerja.
+3. **Dukungan Asupan Nutrisi**:
+   - Pastikan target protein harian Anda (${nutrition?.target_protein_g || 85}g) tercukupi untuk mempercepat pemulihan serabut otot pasca-latihan.`;
+      } else if (lower.includes("shift") || lower.includes("malam") || lower.includes("begah") || lower.includes("tidur")) {
         fallbackReply = `### 🌙 Panduan Gizi & Ritme Sirkadian Shift Malam
 Berdasarkan profil Anda dengan shift **${userProfile?.shift || "Malam"}**:
 
@@ -200,20 +245,20 @@ Berdasarkan beban okupasi Anda (${userProfile?.occupation_type || "Kerja Fisik"}
 3. **Kombinasi Lauk Berenergi Tinggi**:
    - Nasi + Dada Ayam / Telur Rebus + Tempe Goreng + Pisang sebagai sumber kalium pencegah kram otot.`;
       } else {
-        fallbackReply = `### 💡 Analisis Nutrisi Terintegrasi NUTRI-AI
-Halo! Berdasarkan data biometrik Anda (${userProfile?.gender === "Male" ? "Pria" : "Wanita"}, ${userProfile?.age || 26} th, ${userProfile?.occupation_type || "Beban Okupasi Terukur"}):
+        fallbackReply = `### 💬 Konsultasi Adaptif & Bertanggung Jawab NUTRI-AI
+Terima kasih atas pertanyaannya! Meskipun pertanyaan ini cukup luas atau di luar ranah gizi kerja murni, sebagai asisten kesehatan pekerja NUTRI-AI saya senang memberikan panduan yang konstruktif:
 
-- **Target Kalori Harian (TDEE)**: **${nutrition?.daily_calories || 2300} kkal**
-- **Kebutuhan Protein**: **${nutrition?.target_protein_g || 85} gram**
-- **Status IMT**: ${nutrition?.bmi || "Normal"} kg/m² (${nutrition?.bmi_category || "Normal"})
-- **Pola Shift**: ${userProfile?.shift || "Regular"}
+1. **Tinjauan Praktis**:
+   - Menghadapi tantangan harian di tempat kerja membutuhkan perpaduan antara manajemen energi fisik, fokus mental, dan kebiasaan hidup teratur.
+   - Bila Anda sedang mengupayakan peningkatan produktivitas atau memecahkan masalah rutinitas harian, mulailah dari perbaikan siklus pemulihan (tidur berkualitas) dan hidrasi teratur.
 
-**Rekomendasi Spesifik untuk Pertanyaan Anda:**
-- Untuk menjaga energi tetap prima sepanjang jam kerja, prioritaskan makanan dengan indeks glikemik rendah-sedang yang diperkaya serat pangan (minimal 25–30g/hari).
-- Jangan melewatkan waktu sarapan sebelum berangkat kerja untuk mencegah hipoglikemia reaktif saat jam kritis.
-- Selalu cukupi hidrasi dengan aturan praktis: 1 gelas air putih setiap 1–2 jam selama bekerja.
+2. **Korelasinya dengan Profil Okupasi Anda**:
+   - Anda tercatat memiliki profil pekerjaan **${userProfile?.occupation_type || 'Industrial Worker'}** dengan jam kerja **${userProfile?.working_hours || '8 jam/hari'}** dan shift **${userProfile?.shift || 'Night Shift'}**.
+   - Untuk menopang rutinitas tersebut, target energi harian Anda adalah **${nutrition?.daily_calories || 2300} kkal** dan protein **${nutrition?.target_protein_g || 85} gram**.
 
-*Silakan tanyakan secara spesifik mengenai variasi menu, substitusi lauk, atau penyesuaian jadwal makan shift Anda!*`;
+3. **Saran Implementasi Lanjutan**:
+   - Tetap perhatikan sinyal kelelahan tubuh dan luangkan waktu relaksasi di luar jam kerja.
+   - Anda juga dapat menanyakan menu makanan pengganti, tips mengatasi lemas kerja, atau cara menyiasati anggaran belanja mingguan.`;
       }
 
       return res.json({ reply: fallbackReply, source: "domain-engine" });
