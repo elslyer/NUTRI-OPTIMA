@@ -124,39 +124,100 @@ Silakan pilih topik cepat di bawah atau ajukan pertanyaan spesifik terkait penye
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        const data = await response.json();
+        const aiReply: Message = {
+          id: `msg-${Date.now()}-ai`,
+          sender: 'assistant',
+          text: data.reply || 'Mohon maaf, terjadi kendala saat memproses jawaban.',
+          timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+          source: data.source || 'gemini',
+        };
+        setMessages((prev) => [...prev, aiReply]);
+        return;
       }
-
-      const data = await response.json();
-      const aiReply: Message = {
-        id: `msg-${Date.now()}-ai`,
-        sender: 'assistant',
-        text: data.reply || 'Mohon maaf, terjadi kendala saat memproses jawaban.',
-        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-        source: data.source || 'gemini',
-      };
-
-      setMessages((prev) => [...prev, aiReply]);
-    } catch (error) {
-      console.error('Error contacting AI assistant API:', error);
-      // Client-side fallback if server fails
-      const fallbackReply: Message = {
-        id: `msg-${Date.now()}-ai`,
-        sender: 'assistant',
-        text: `### 💡 Panduan Gizi Presisi NUTRI-AI
-Berdasarkan profil Anda (${userProfile.occupation_type}, Shift ${userProfile.shift}):
-
-1. **Keseimbangan Energi**: Target kalori harian Anda adalah **${nutrition?.daily_calories || 2400} kkal** dengan **${nutrition?.target_protein_g || 80}g protein**.
-2. **Prioritas Pangan Lokal**: Penuhi kebutuhan ini dengan kombinasi telur rebus (sarapan), tempe/tahu bacem dan sayur asem (siang), serta ikan kembung (malam).
-3. **Tips Hidrasi**: Pastikan asupan minimal 2.5–3 Liter air mineral per hari, terutama bagi pekerja fisik untuk mencegah dehidrasi dan penurunan performa kerja.`,
-        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-        source: 'domain-engine',
-      };
-      setMessages((prev) => [...prev, fallbackReply]);
-    } finally {
-      setIsLoading(false);
+    } catch {
+      // Backend not running (e.g. GitHub Pages static hosting or network offline)
+      // Gracefully fall through to smart client-side domain engine below
     }
+
+    // Client-side intelligent domain engine (Zero-downtime on GitHub Pages / Static Hosting)
+    let fallbackText = '';
+    const qLower = query.toLowerCase();
+
+    if (qLower.includes('shift') || qLower.includes('malam') || qLower.includes('begadang')) {
+      fallbackText = `### 🌙 Strategi Nutrisi Ritme Sirkadian (Shift Malam)
+Berdasarkan profil shift **${userProfile.shift}** Anda:
+
+1. **Pre-Shift Meal (19.00 - 20.00)**:
+   - Konsumsi makanan utama kaya karbohidrat kompleks & protein (contoh: nasi merah/nasi putih 150g + dada ayam/ikan bakar + tumis buncis). Karbohidrat kompleks melepas glukosa bertahap untuk mencegah lemas awal shift.
+2. **Mid-Shift Refuel (00.30 - 02.00)**:
+   - Hindari makanan berat berlemak tinggi karena motilitas lambung melambat di malam hari. Pilih camilan berprotein tinggi seperti telur rebus, tahu kukus, atau edamame.
+3. **Post-Shift Winding Down (06.30 - 07.30)**:
+   - Santap sarapan ringan yang kaya triptofan (contoh: pisang + oatmeal atau susu kedelai hangat) untuk memicu sintesis melatonin alami dan tidur nyenyak.`;
+    } else if (qLower.includes('kantuk') || qLower.includes('lemas') || qLower.includes('14.00') || qLower.includes('coma')) {
+      fallbackText = `### ⚡ Mencegah "Food Coma" & Mengatasi Kantuk Siang
+Pekerja sering mengalami penurunan fokus drastis antara jam 13.00 – 15.00:
+
+1. **Kendalikan Beban Glikemik Makan Siang**:
+   - Kurangi porsi nasi putih berlebih dan hindari gorengan bertepung tebal yang memicu lonjakan insulin (*reactive hypoglycemia*).
+2. **Kombinasi Serat & Asam Lemak Sehat**:
+   - Tingkatkan porsi sayuran hijau (bayam, sawi, brokoli) minimal separuh piring (Metode Piring T Kemenkes RI).
+3. **Hidrasi & Power Walk**:
+   - Minum 1 gelas air mineral dingin dan lakukan peregangan fisik ringan 3–5 menit untuk meningkatkan suplai oksigen serebral.`;
+    } else if (qLower.includes('budget') || qLower.includes('hemat') || qLower.includes('murah') || qLower.includes('lauk')) {
+      fallbackText = `### 💰 Panduan Lauk Lokal Berprotein Tinggi & Hemat
+Dengan pagu anggaran **Rp ${userProfile.daily_food_budget.toLocaleString('id-ID')} / hari**:
+
+1. **Sumber Protein 'Superfood' Indonesia**:
+   - **Tempe & Tahu**: Biaya ~Rp 3.000 - Rp 5.000/porsi menyediakan 12–15g protein nabati berkualitas tinggi serta serat prebiotik.
+   - **Telur Ayam**: ~Rp 2.500/butir, mengandung 6–7g protein bernilai biologis sempurna (*Biological Value 100*).
+   - **Ikan Kembung**: Alternatif terjangkau pengganti salmon dengan kadar asam lemak Omega-3 dan protein yang sebanding (~Rp 8.000 - Rp 10.000/ekor).
+2. **Sayur Segar Murah & Padat Gizi**:
+   - Sayur bayam jagung bening, tumis kangkung, atau lalapan timun-kemangi (~Rp 3.000/porsi).`;
+    } else if (qLower.includes('kopi') || qLower.includes('kafein') || qLower.includes('jam')) {
+      fallbackText = `### ☕ Panduan Aman Konsumsi Kafein & Waktu Cut-Off
+Untuk menjaga performa kerja tanpa merusak kualitas tidur sirkadian:
+
+1. **Waktu Paruh Kafein (*Half-Life*)**:
+   - Kafein memiliki waktu paruh 5–7 jam dalam tubuh. 
+   - **Batas Terakhir (Cut-Off)**: Hentikan konsumsi kopi minimal **6 jam sebelum jadwal tidur utama Anda**.
+2. **Dosis Optimal Pekerja**:
+   - Batasi maksimal 2–3 cangkir kopi per hari (~200–300 mg kafein).
+   - Hindari kopi instan saset tinggi gula tambahan (*sugar crash*) yang justru memperparah rasa lelah setelah 1 jam.`;
+    } else if (qLower.includes('fisik') || qLower.includes('otot') || qLower.includes('berat') || qLower.includes('stamina')) {
+      fallbackText = `### 💪 Nutrisi Pemulihan & Tenaga Pekerja Fisik
+Untuk intensitas pekerjaan **${userProfile.occupation_type}**:
+
+1. **Kecukupan Protein Harian**:
+   - Kebutuhan protein Anda adalah **${nutrition?.target_protein_g || 90} gram/hari** (1.2–1.6g per kg berat badan) guna mencegah katabolisme otot.
+2. **Penggantian Elektrolit & Hidrasi**:
+   - Pekerja aktif di iklim tropis membutuhkan 3.5 – 4.5 liter cairan harian. Minum secara teratur setiap 20–30 menit saat bekerja fisik.
+3. **Kombinasi Pemulihan**:
+   - Konsumsi campuran karbohidrat dan protein dalam rasio 3:1 dalam rentang 1 jam seusai jam kerja fisik (contoh: pisang + susu atau nasi tim telur).`;
+    } else {
+      fallbackText = `### 💡 Panduan Gizi Presisi NUTRI-OPTIMA
+Halo! Berdasarkan profil kerja Anda (${userProfile.gender === 'Male' ? 'Pria' : 'Wanita'}, ${userProfile.age} th, ${userProfile.occupation_type}):
+
+- **Target Kalori Harian (TDEE)**: **${nutrition?.daily_calories || 2300} kkal**
+- **Target Protein**: **${nutrition?.target_protein_g || 80} gram** (pembagian rata di setiap sesi makan)
+- **Status IMT**: ${nutrition?.bmi || 'Normal'} kg/m² (${nutrition?.bmi_category || 'Normal'})
+- **Pola Shift**: ${userProfile.shift}
+
+**Saran Implementasi:**
+- Jaga konsistensi jadwal makan harian dan pastikan asupan air minimal 2.5–3 Liter per hari.
+- Untuk pertanyaan spesifik, Anda dapat menggunakan tombol pilihan cepat di bawah atau menanyakan menu pangan lokal pengganti!`;
+    }
+
+    const fallbackReply: Message = {
+      id: `msg-${Date.now()}-ai`,
+      sender: 'assistant',
+      text: fallbackText,
+      timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      source: 'domain-engine',
+    };
+    setMessages((prev) => [...prev, fallbackReply]);
+    setIsLoading(false);
   };
 
   const handleResetChat = () => {

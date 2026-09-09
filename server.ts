@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { INITIAL_FOOD_DATABASE } from "./src/data/foodDatabase";
 
 dotenv.config();
 
@@ -32,6 +33,32 @@ async function startServer() {
   // Health check
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  // Food database endpoint
+  app.get("/api/food-database", (req, res) => {
+    res.json({
+      total: INITIAL_FOOD_DATABASE.length,
+      foods: INITIAL_FOOD_DATABASE,
+    });
+  });
+
+  // Demo profile endpoint
+  app.get("/api/demo-profile", (req, res) => {
+    res.json({
+      age: 26,
+      gender: "Male",
+      weight_kg: 68,
+      height_cm: 172,
+      occupation_type: "Light physical work",
+      working_hours: "8-10 jam (Lembur moderat)",
+      shift: "Regular daytime",
+      physical_activity: "Aktivitas Sedang",
+      average_sleep_hours: 7,
+      food_preference: "Balanced",
+      avoided_foods: "",
+      daily_food_budget: 45000,
+    });
   });
 
   // AI Workforce Nutrition Consultant endpoint

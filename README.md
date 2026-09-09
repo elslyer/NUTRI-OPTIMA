@@ -140,10 +140,27 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Buka peramban web dan akses:
-```text
-http://127.0.0.1:5000
+### Menjalankan React + Vite Web App
+```bash
+# 1. Pasang dependensi Node.js
+npm install
+
+# 2. Jalankan server pengembangan
+npm run dev
+
+# 3. Akses di browser: http://localhost:3000
 ```
+
+### Deployment ke GitHub Pages
+Repository ini telah dikonfigurasi dengan:
+1. `base: './'` pada `vite.config.ts` agar berkas build JavaScript dan CSS selalu dimuat dengan path relatif (mencegah error 404 pada subpath GitHub Pages `username.github.io/repo-name/`).
+2. `public/404.html` untuk menangani redirect single-page application di GitHub Pages.
+3. Automated GitHub Actions workflow di `.github/workflows/deploy.yml`.
+
+Cara mengaktifkan di GitHub:
+1. Buka repository Anda di GitHub: **Settings** &rarr; **Pages**.
+2. Pada **Build and deployment > Source**, pilih **GitHub Actions**.
+3. Lakukan `git push` ke branch `main` atau `master`. GitHub Actions akan otomatis melakukan build dan menerbitkan aplikasi ke GitHub Pages tanpa kendala 404.
 
 ---
 
