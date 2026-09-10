@@ -1,13 +1,12 @@
 import React from 'react';
-import { BookOpen, Calculator, Cpu, ShieldCheck, ExternalLink, GraduationCap, Award, FileText } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 export const MethodologyView: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
       <div className="pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2 border border-emerald-200 dark:border-emerald-800">
-          <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2 border border-emerald-200 dark:border-emerald-800">
           <span>Scientific Documentation & Methodology</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -20,8 +19,7 @@ export const MethodologyView: React.FC = () => {
 
       {/* Section 1: Latar Belakang Riset */}
       <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center gap-2">
-          <GraduationCap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
           <span>1. Latar Belakang & Urgensi Gizi Tenaga Kerja</span>
         </h3>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -34,8 +32,7 @@ export const MethodologyView: React.FC = () => {
 
       {/* Section 2: Formula Biometrik */}
       <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center gap-2">
-          <Calculator className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
           <span>2. Formula Perhitungan Kebutuhan Energi & Makronutrien</span>
         </h3>
 
@@ -74,8 +71,7 @@ export const MethodologyView: React.FC = () => {
 
       {/* Section 3: Algoritma AI */}
       <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center gap-2">
-          <Cpu className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
           <span>3. Algoritma AI & Sistem Rekomendasi Makanan</span>
         </h3>
 
@@ -111,8 +107,7 @@ export const MethodologyView: React.FC = () => {
       {/* Section 4: Daftar Pustaka & Referensi Ilmiah */}
       <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <FileText className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">
             <span>4. Daftar Pustaka & Referensi Ilmiah (Academic References)</span>
           </h3>
           <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
@@ -279,12 +274,11 @@ export const MethodologyView: React.FC = () => {
 
       {/* Section 5: Keterbatasan & Keamanan */}
       <div className="bg-emerald-50 dark:bg-slate-900 p-6 rounded-2xl border border-emerald-200 dark:border-slate-800 text-xs sm:text-sm text-slate-800 dark:text-slate-200 space-y-2">
-        <h4 className="font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+        <h4 className="font-bold text-emerald-900 dark:text-emerald-300">
           <span>Etika Medis, Standar K3, & Keamanan Okupasi</span>
         </h4>
         <p className="leading-relaxed">
-          NUTRI-OPTIMA dirancang sebagai sistem pendukung keputusan (*decision support system*) terstandarisasi untuk pengambil kebijakan kesehatan kerja, manajer HSE/HR, dan tenaga kerja mandiri. Seluruh kalkulasi berakar pada bukti empiris kedokteran okupasi dan Peraturan Menteri Kesehatan RI Nomor 28 Tahun 2019.
+          NUTRI-OPTIMA dirancang sebagai sistem pendukung keputusan (<strong className="font-bold text-slate-900 dark:text-white">decision support system</strong>) terstandarisasi untuk pengambil kebijakan kesehatan kerja, manajer HSE/HR, dan tenaga kerja mandiri. Seluruh kalkulasi berakar pada bukti empiris kedokteran okupasi dan Peraturan Menteri Kesehatan RI Nomor 28 Tahun 2019.
         </p>
       </div>
     </div>

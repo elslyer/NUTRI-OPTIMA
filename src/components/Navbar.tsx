@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeartPulse, Moon, Sun, Sparkles, BookOpen, Database, Calculator, ArrowRight } from 'lucide-react';
+import { HeartPulse, Moon, Sun, ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
   currentTab: 'home' | 'assessment' | 'result' | 'database' | 'methodology' | 'ai-assistant';
@@ -69,14 +69,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-assessment"
               onClick={() => setCurrentTab('assessment')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
                 currentTab === 'assessment'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
               }`}
             >
-              <Calculator className="w-4 h-4" />
-              <span>Assessment Gizi</span>
+              Assessment Gizi
             </button>
 
             {hasResult && (
@@ -96,40 +95,37 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-database"
               onClick={() => setCurrentTab('database')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
                 currentTab === 'database'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
               }`}
             >
-              <Database className="w-4 h-4" />
-              <span>Katalog Pangan</span>
+              Katalog Pangan
             </button>
 
             <button
               id="nav-methodology"
               onClick={() => setCurrentTab('methodology')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
                 currentTab === 'methodology'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
               }`}
             >
-              <BookOpen className="w-4 h-4" />
-              <span>Metodologi Ilmiah</span>
+              Metodologi Ilmiah
             </button>
 
             <button
               id="nav-ai-assistant"
               onClick={() => setCurrentTab('ai-assistant')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
                 currentTab === 'ai-assistant'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Asisten AI</span>
+              Asisten AI
             </button>
           </nav>
 
@@ -218,14 +214,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         </button>
         <button
           onClick={() => setCurrentTab('ai-assistant')}
-          className={`px-2.5 py-1.5 rounded-lg active:scale-95 transition-all flex items-center gap-1 ${
+          className={`px-2.5 py-1.5 rounded-lg active:scale-95 transition-all ${
             currentTab === 'ai-assistant'
               ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Asisten AI</span>
+          Asisten AI
         </button>
       </div>
     </header>

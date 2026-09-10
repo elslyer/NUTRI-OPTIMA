@@ -1,22 +1,6 @@
 import React, { useState } from 'react';
 import { UserProfile } from '../types';
 import { calculateBMI } from '../utils/nutritionEngine';
-import {
-  User,
-  Briefcase,
-  Activity,
-  Utensils,
-  Coins,
-  Sparkles,
-  RotateCcw,
-  CheckCircle2,
-  Info,
-  Clock,
-  Moon,
-  Sun,
-  Flame,
-  Zap,
-} from 'lucide-react';
 
 interface AssessmentFormProps {
   initialProfile: UserProfile;
@@ -102,8 +86,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       {/* Title & Archetype Selector */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2 border border-emerald-200 dark:border-emerald-800">
-            <Zap className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-2 border border-emerald-200 dark:border-emerald-800">
             <span>Kalkulator Kebutuhan Gizi & Menu Presisi</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -119,38 +102,35 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
           <button
             type="button"
             onClick={() => applyTemplate('nightshift')}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer ${
               activeTemplate === 'nightshift'
                 ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-700/30'
                 : 'bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:border-emerald-400'
             }`}
           >
-            <Moon className="w-3.5 h-3.5" />
-            <span>Shift Malam</span>
+            Shift Malam
           </button>
           <button
             type="button"
             onClick={() => applyTemplate('office')}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer ${
               activeTemplate === 'office'
                 ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-700/30'
                 : 'bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:border-emerald-400'
             }`}
           >
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Kantor (Sedentary)</span>
+            Kantor (Sedentary)
           </button>
           <button
             type="button"
             onClick={() => applyTemplate('field')}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer ${
               activeTemplate === 'field'
                 ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-700/30'
                 : 'bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:border-emerald-400'
             }`}
           >
-            <Flame className="w-3.5 h-3.5" />
-            <span>Lapangan (Fisik Berat)</span>
+            Lapangan (Fisik Berat)
           </button>
         </div>
       </div>
@@ -159,8 +139,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Section 1: Karakteristik Individu */}
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5 transition-colors">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
-            <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <div className="pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
             <span>1. Karakteristik Individu & Biometrik</span>
           </div>
 
@@ -257,14 +236,12 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
 
         {/* Section 2: Workforce Profile — Core Novelty */}
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border-2 border-emerald-500/30 dark:border-emerald-500/30 shadow-xs space-y-6 transition-colors relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-bl-xl tracking-wider flex items-center gap-1">
-            <Briefcase className="w-3 h-3" />
+          <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-bl-xl tracking-wider">
             <span>Core Novelty</span>
           </div>
 
           <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-lg">
-              <Briefcase className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <div className="text-slate-900 dark:text-white font-extrabold text-lg">
               <span>2. Workforce Profile (Karakteristik Tenaga Kerja)</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -409,8 +386,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
 
         {/* Section 4: Preferensi Makanan & Anggaran */}
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-5 transition-colors">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
-            <Coins className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <div className="pb-3 border-b border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white font-bold text-base">
             <span>3. Preferensi Pangan & Batas Anggaran (IDR)</span>
           </div>
 
@@ -473,7 +449,6 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             id="btn-submit-assessment"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 shadow-md shadow-emerald-700/20 hover:shadow-lg hover:shadow-emerald-700/30 transition-all text-sm cursor-pointer"
           >
-            <Sparkles className="w-4 h-4" />
             <span>Kalkulasi Kebutuhan & Rekomendasikan Menu AI</span>
           </button>
         </div>
