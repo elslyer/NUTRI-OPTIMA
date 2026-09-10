@@ -25,10 +25,10 @@ export const MethodologyView: React.FC = () => {
           <span>1. Latar Belakang & Urgensi Gizi Tenaga Kerja</span>
         </h3>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          Studi epidemiologi okupasi membuktikan bahwa intervensi gizi di tempat kerja berkorelasi positif dengan peningkatan produktivitas, penurunan absensi, dan profitabilitas perusahaan (Jensen, 2011). Sebaliknya, beban kerja fisik yang tidak terkompensasi oleh asupan energi dan zat gizi mikro yang seimbang meningkatkan risiko kelelahan kronis (*fatigue*), kecelakaan kerja, dan penurunan daya konsentrasi.
+          Studi epidemiologi okupasi membuktikan bahwa intervensi gizi di tempat kerja berkorelasi positif dengan peningkatan produktivitas, penurunan absensi, dan profitabilitas perusahaan (Jensen, 2011). Sebaliknya, beban kerja fisik yang tidak terkompensasi oleh asupan energi dan zat gizi mikro yang seimbang meningkatkan risiko kelelahan kronis (<strong className="font-bold text-slate-900 dark:text-white">fatigue</strong>), kecelakaan kerja, dan penurunan daya konsentrasi.
         </p>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          Pekerja dengan sistem *shift* (khususnya *night shift* dan *rotating shift*) mengalami gangguan ritme sirkadian yang memicu ketidakteraturan pola makan, disregulasi leptin/ghrelin, serta peningkatan risiko gangguan metabolik jangka panjang (Souza et al., 2019). NUTRI-OPTIMA merumuskan solusi presisi dengan mengacu pada Angka Kecukupan Gizi (AKG) nasional (Kementerian Kesehatan RI, 2019) dan memanfaatkan basis data pangan lokal (Kementerian Kesehatan RI, 2017).
+          Pekerja dengan sistem <strong className="font-bold text-slate-900 dark:text-white">shift</strong> (khususnya <strong className="font-bold text-slate-900 dark:text-white">night shift</strong> dan <strong className="font-bold text-slate-900 dark:text-white">rotating shift</strong>) mengalami gangguan ritme sirkadian yang memicu ketidakteraturan pola makan, disregulasi leptin/ghrelin, serta peningkatan risiko gangguan metabolik jangka panjang (Souza et al., 2019). NUTRI-OPTIMA merumuskan solusi presisi dengan mengacu pada Angka Kecukupan Gizi (AKG) nasional (Kementerian Kesehatan RI, 2019) dan memanfaatkan basis data pangan lokal (Kementerian Kesehatan RI, 2017).
         </p>
       </div>
 
@@ -44,7 +44,7 @@ export const MethodologyView: React.FC = () => {
             A. Basal Metabolic Rate (Mifflin-St Jeor Equation)
           </h4>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            Formula Mifflin-St Jeor (Mifflin et al., 1990) telah diverifikasi secara sistematis oleh *American Dietetic Association* sebagai prediktor BMR paling handal dan memiliki persentase kesalahan terkecil baik pada individu non-obesitas maupun obesitas (Frankenfield et al., 2005):
+            Formula Mifflin-St Jeor (Mifflin et al., 1990) telah diverifikasi secara sistematis oleh <strong className="font-bold text-slate-900 dark:text-white">American Dietetic Association</strong> sebagai prediktor BMR paling handal dan memiliki persentase kesalahan terkecil baik pada individu non-obesitas maupun obesitas (Frankenfield et al., 2005):
           </p>
           <div className="p-4 rounded-xl bg-slate-950 text-emerald-400 font-mono text-xs space-y-1.5 border border-slate-800">
             <p>Pria   : BMR (kkal/hari) = (10 × Berat[kg]) + (6.25 × Tinggi[cm]) - (5 × Usia[th]) + 5</p>
@@ -57,7 +57,7 @@ export const MethodologyView: React.FC = () => {
             B. Total Daily Energy Expenditure (TDEE) & Multiplier Okupasi
           </h4>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            TDEE tenaga kerja dihitung dengan memadukan faktor aktivitas dasar (*Physical Activity Level / PAL*) dan faktor koreksi beban okupasi serta durasi lembur:
+            TDEE tenaga kerja dihitung dengan memadukan faktor aktivitas dasar (<strong className="font-bold text-slate-900 dark:text-white">Physical Activity Level / PAL</strong>) dan faktor koreksi beban okupasi serta durasi lembur:
           </p>
           <div className="p-4 rounded-xl bg-slate-950 text-emerald-400 font-mono text-xs border border-slate-800">
             <p>TDEE = BMR × (PAL_Base + Occupation_Adjustment) × Overtime_Multiplier</p>
@@ -84,7 +84,7 @@ export const MethodologyView: React.FC = () => {
             A. Content-Based Filtering & Cosine Similarity
           </h4>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            Berdasarkan taksonomi sistem rekomendasi pangan terkini (*Food Recommender Systems*) (Bondevik et al., 2024; Ricci et al., 2022), pendekatan *Content-Based Filtering* efektif mencocokkan vektor kebutuhan nutrisi target pengguna dengan vektor atribut 5 dimensi bahan pangan <code>[Kalori, Protein, Karbohidrat, Lemak, Serat]</code>:
+            Berdasarkan taksonomi sistem rekomendasi pangan terkini (<strong className="font-bold text-slate-900 dark:text-white">Food Recommender Systems</strong>) (Bondevik et al., 2024; Ricci et al., 2022), pendekatan <strong className="font-bold text-slate-900 dark:text-white">Content-Based Filtering</strong> efektif mencocokkan vektor kebutuhan nutrisi target pengguna dengan vektor atribut 5 dimensi bahan pangan <code>[Kalori, Protein, Karbohidrat, Lemak, Serat]</code>:
           </p>
           <div className="p-4 rounded-xl bg-slate-950 text-emerald-400 font-mono text-xs border border-slate-800">
             <p>Cosine Similarity(u, i) = (u · i) / (||u|| × ||i||) = ∑(u_k × i_k) / (√∑u_k² × √∑i_k²)</p>

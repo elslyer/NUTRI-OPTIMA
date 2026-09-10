@@ -78,7 +78,7 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
             Dashboard Rekomendasi Gizi NUTRI-OPTIMA
           </h2>
           <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1">
-            Analisis terintegrasi untuk {userProfile.gender === 'Male' ? 'Pria' : 'Wanita'}, {userProfile.age} tahun &bull; {userProfile.occupation_type} &bull; Shift: {userProfile.shift}
+            Analisis terintegrasi untuk <strong className="font-semibold text-slate-800 dark:text-slate-200">{userProfile.gender === 'Male' ? 'Pria' : 'Wanita'}</strong>, {userProfile.age} tahun &bull; <strong className="font-semibold text-slate-800 dark:text-slate-200">{userProfile.occupation_type}</strong> &bull; Shift: <strong className="font-bold text-emerald-600 dark:text-emerald-400">{userProfile.shift}</strong>
           </p>
         </div>
 
@@ -439,7 +439,7 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
               Rencana Menu Harian Pekerja (Circadian Meal Slots)
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Dioptimalkan berdasarkan ritme sirkadian shift {userProfile.shift} dan beban kerja {userProfile.occupation_type}.
+              Dioptimalkan berdasarkan ritme sirkadian shift <strong className="font-bold text-emerald-700 dark:text-emerald-400">{userProfile.shift}</strong> dan beban kerja <strong className="font-bold text-slate-800 dark:text-slate-200">{userProfile.occupation_type}</strong>.
             </p>
           </div>
           <button
@@ -545,7 +545,7 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
             <span>Ritme Sirkadian Okupasi</span>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            Pekerja dengan shift {userProfile.shift} memerlukan pengaturan waktu makan biologis guna mencegah resistensi insulin nokturnal dan penurunan konsentrasi saat jam kerja kritis.
+            Pekerja dengan sistem shift <strong className="font-bold text-emerald-600 dark:text-emerald-400">{userProfile.shift}</strong> (khususnya jika berada di pola <strong className="font-semibold text-slate-800 dark:text-slate-200">night shift</strong> atau <strong className="font-semibold text-slate-800 dark:text-slate-200">rotating shift</strong>) memerlukan pengaturan waktu makan biologis guna mencegah resistensi insulin nokturnal dan penurunan konsentrasi saat jam kerja kritis.
           </p>
         </div>
 

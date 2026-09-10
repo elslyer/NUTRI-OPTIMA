@@ -27,13 +27,27 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-3 cursor-pointer group select-none py-1"
             title="Ke Beranda NUTRI-OPTIMA"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 group-hover:shadow-emerald-600/30 group-active:scale-95 transition-all duration-200">
-              <HeartPulse className="w-5 h-5 transition-transform group-hover:scale-110" />
+            <div className="relative">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-600/30 group-hover:scale-105 group-hover:shadow-emerald-600/40 group-active:scale-95 transition-all duration-300">
+                <HeartPulse className="w-5 h-5 transition-transform group-hover:scale-110" />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse" />
             </div>
-            {/* Sesuai permintaan: tulisan NUTRI-OPTIMA agak turun ke bawah tapi tetap dalam white bar */}
-            <div className="flex items-center pt-1.5">
-              <span className="font-black text-xl sm:text-2xl tracking-tight text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                NUTRI-OPTIMA
+            
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center gap-1.5">
+                <span className="font-black text-xl sm:text-2xl tracking-tight leading-none text-slate-900 dark:text-white transition-colors">
+                  <span>NUTRI</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300 font-extrabold ml-0.5">
+                    -OPTIMA
+                  </span>
+                </span>
+                <span className="hidden lg:inline-flex items-center text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 shadow-2xs">
+                  Workforce AI
+                </span>
+              </div>
+              <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 leading-tight tracking-tight hidden sm:block">
+                Occupational Nutrition System
               </span>
             </div>
           </div>

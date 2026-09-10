@@ -671,7 +671,7 @@ Terima kasih atas pertanyaannya! Meskipun topiknya terdengar santai atau sedikit
             </button>
           </form>
           <div className="text-[10px] text-slate-400 mt-1 text-center">
-            NUTRI-AI: Konsultan interaktif tenaga kerja untuk kesehatan, manajemen stres, dan pemulihan kejenuhan (*burnout*).
+            NUTRI-AI: Konsultan interaktif tenaga kerja untuk kesehatan, manajemen stres, dan pemulihan kejenuhan (<strong className="font-semibold text-slate-600 dark:text-slate-300">burnout</strong>).
           </div>
         </div>
       </div>

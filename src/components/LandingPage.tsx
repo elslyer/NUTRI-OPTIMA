@@ -35,21 +35,37 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold border border-emerald-200 dark:border-emerald-800">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 text-xs font-semibold border border-emerald-200 dark:border-emerald-800 shadow-2xs">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Sistem Rekomendasi Gizi Presisi untuk Tenaga Kerja Indonesia</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-              NUTRI-OPTIMA
-            </h1>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none">
+                  <span className="text-slate-900 dark:text-white">NUTRI-</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-400 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-300">
+                    OPTIMA
+                  </span>
+                </h1>
+                <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-emerald-100 dark:bg-emerald-900/80 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
+                  v2.4
+                </span>
+              </div>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-emerald-700 dark:text-emerald-400 leading-snug">
-              AI-Powered Personalized Nutrition for a Healthier Workforce
-            </h2>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-emerald-700 dark:text-emerald-400 border border-slate-200 dark:border-slate-700">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>AI-Powered Occupational Nutrition</span>
+                </span>
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  • Standar Kemenkes RI (AKG 2019) & TKPI
+                </span>
+              </div>
+            </div>
 
-            <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
-              NUTRI-OPTIMA menghitung kebutuhan kalori dan makronutrien riil tenaga kerja berdasarkan karakteristik individu, beban kerja okupasi, ritme sirkadian kerja (shift), preferensi pangan, dan keterjangkauan anggaran makanan harian.
+            <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl pt-1">
+              NUTRI-OPTIMA menghitung kebutuhan kalori dan makronutrien riil tenaga kerja berdasarkan karakteristik individu, beban kerja okupasi, ritme sirkadian kerja (<strong className="font-bold text-slate-900 dark:text-white">shift</strong>), preferensi pangan, dan keterjangkauan anggaran makanan harian.
             </p>
 
             {/* CTAs */}
