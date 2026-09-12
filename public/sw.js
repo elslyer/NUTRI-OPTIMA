@@ -1,27 +1,38 @@
-// NUTRI-OPTIMA Service Worker
-const CACHE_NAME = 'nutri-optima-v1';
+// NUTRI-OPTIMA Bulletproof Service Worker
+const CACHE_NAME = 'nutri-optima-v2';
 
+// Safe assets to cache
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/manifest.json',
   '/favicon.png',
   '/favicon.svg',
   '/icon.svg',
-  '/apple-touch-icon.png',
   '/pwa-192x192.png',
   '/pwa-512x512.png',
   '/pwa-maskable-512x512.png'
 ];
 
 self.addEventListener('install', (event) => {
+  // Activate immediately without waiting
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('Pre-caching some assets failed:', err);
-      });
-    }).then(() => self.skipWaiting())
+      return Promise.all(
+        STATIC_ASSETS.map((url) => {
+          return fetch(url, { cache: 'no-cache' })
+            .then((res) => {
+              if (res.ok) {
+                return cache.put(url, res);
+              }
+            })
+            .catch(() => {
+              // Ignore individual asset cache failure
+            });
+        })
+      );
+    })
   );
 });
 
@@ -40,54 +51,62 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
+  const request = event.request;
+
+  // Only handle HTTP/HTTPS GET requests, exclude API calls and chrome-extension
+  if (request.method !== 'GET') return;
   const url = new URL(request.url);
+  if (url.pathname.startsWith('/api/') || !url.protocol.startsWith('http')) return;
 
-  // Skip non-GET requests and API calls from cache
-  if (request.method !== 'GET' || url.pathname.startsWith('/api/')) {
-    return;
-  }
-
-  // Google Fonts caching
-  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
+  // Google fonts: Cache-first
+  if (url.origin.includes('fonts.googleapis.com') || url.origin.includes('fonts.gstatic.com')) {
     event.respondWith(
-      caches.open('google-fonts-cache').then(async (cache) => {
-        const cached = await cache.match(request);
+      caches.match(request).then((cached) => {
         if (cached) return cached;
-        try {
-          const response = await fetch(request);
-          if (response && response.status === 200) {
-            cache.put(request, response.clone());
+        return fetch(request).then((networkRes) => {
+          if (networkRes && networkRes.ok) {
+            const clone = networkRes.clone();
+            caches.open('google-fonts-cache').then((c) => c.put(request, clone));
           }
-          return response;
-        } catch {
-          return cached || new Response('', { status: 408 });
-        }
+          return networkRes;
+        }).catch(() => new Response('', { status: 200 }));
       })
     );
     return;
   }
 
-  // Stale-while-revalidate for app assets
+  // Network-First with Cache Fallback for maximum reliability on mobile devices
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      const fetchPromise = fetch(request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseClone = networkResponse.clone();
+    fetch(request)
+      .then((networkRes) => {
+        // Cache valid 200 responses
+        if (networkRes && networkRes.status === 200 && (networkRes.type === 'basic' || networkRes.type === 'cors')) {
+          const clone = networkRes.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
+            cache.put(request, clone);
           });
         }
-        return networkResponse;
-      }).catch(() => {
-        // Offline fallback for navigation requests
-        if (request.mode === 'navigate') {
-          return caches.match('/index.html') || cachedResponse;
-        }
-        return cachedResponse;
-      });
+        return networkRes;
+      })
+      .catch(async () => {
+        // If network fails (offline / disconnected), try cache
+        const cachedRes = await caches.match(request);
+        if (cachedRes) return cachedRes;
 
-      return cachedResponse || fetchPromise;
-    })
+        // If navigation request fails, return cached index.html
+        if (request.mode === 'navigate') {
+          const indexRes = await caches.match('/index.html') || await caches.match('/');
+          if (indexRes) return indexRes;
+        }
+
+        // Never return undefined to respondWith - return a clean fallback Response
+        return new Response(
+          '<!DOCTYPE html><html><head><meta charset="utf-8"><title>NUTRI-OPTIMA Offline</title></head><body style="font-family:sans-serif;text-align:center;padding:40px;"><h2>NUTRI-OPTIMA</h2><p>Koneksi internet Anda sedang terputus. Silakan hubungkan kembali perangkat Anda ke internet lalu muat ulang halaman.</p><button onclick="location.reload()" style="padding:10px 20px;background:#059669;color:white;border:none;border-radius:8px;cursor:pointer;">Muat Ulang</button></body></html>',
+          {
+            status: 200,
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
+          }
+        );
+      })
   );
 });

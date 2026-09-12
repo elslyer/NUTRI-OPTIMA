@@ -1,6 +1,7 @@
-import React from 'react';
-import { ArrowRight, Sparkles, BookOpen, Database, Users, Utensils, ShieldCheck, HeartPulse } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Sparkles, BookOpen, Database, Users, Utensils, ShieldCheck, HeartPulse, Smartphone } from 'lucide-react';
 import { PWAInstallButton } from './PWAInstallButton';
+import { MobileAccessModal } from './MobileAccessModal';
 import heroIllustration from '../assets/images/workforce_nutrition_banner_1789215250000.jpg';
 import cartoonFoodIllustration from '../assets/images/cartoon_healthy_food_1789205869154.jpg';
 
@@ -17,6 +18,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onViewMethodology,
   onViewAiAssistant,
 }) => {
+  const [showMobileModal, setShowMobileModal] = useState(false);
+
   return (
     <div className="space-y-16 py-6 sm:py-10">
       {/* Rich, Engaging Hero Section with Cartoon Illustrations */}
@@ -76,6 +79,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               )}
 
               <button
+                id="hero-btn-open-mobile"
+                onClick={() => setShowMobileModal(true)}
+                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-semibold text-sm text-teal-800 dark:text-teal-200 bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 hover:bg-teal-100 dark:hover:bg-teal-900/80 active:scale-95 transition-all shadow-2xs cursor-pointer"
+                title="Buka atau pindai di HP"
+              >
+                <Smartphone className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                <span>Buka di HP (QR Code)</span>
+              </button>
+
+              <button
                 id="hero-btn-database"
                 onClick={onViewDatabase}
                 className="inline-flex items-center gap-2 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-semibold text-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/80 active:scale-95 transition-all shadow-xs cursor-pointer"
@@ -86,6 +99,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               <PWAInstallButton variant="hero" />
             </div>
+
+            <MobileAccessModal
+              isOpen={showMobileModal}
+              onClose={() => setShowMobileModal(false)}
+            />
 
             {/* Highlights row */}
             <div className="pt-2 grid grid-cols-3 gap-3 max-w-xl mx-auto lg:mx-0">

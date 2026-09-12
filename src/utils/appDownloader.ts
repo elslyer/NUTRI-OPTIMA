@@ -2,8 +2,20 @@
  * Helper to trigger application downloads and native Chrome installation
  */
 
+export const PUBLIC_APP_URL = 'https://ais-pre-v2bbpxccxtgenlpgochfyf-893119588729.asia-east1.run.app';
+
+export function getAppUrl(): string {
+  if (typeof window === 'undefined') return PUBLIC_APP_URL;
+  const origin = window.location.origin;
+  // If running locally, in container dev, or in private dev proxy, always target the public shared URL
+  if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('ais-dev-')) {
+    return PUBLIC_APP_URL;
+  }
+  return origin;
+}
+
 export function downloadStandaloneApp() {
-  const targetUrl = window.location.origin;
+  const targetUrl = getAppUrl();
 
   const htmlContent = `<!DOCTYPE html>
 <html lang="id">
@@ -125,7 +137,7 @@ export function downloadStandaloneApp() {
     <p>Sistem Rekomendasi Gizi Presisi untuk Tenaga Kerja Indonesia berbasis okupasi, ritme sirkadian shift, dan 100 pangan lokal.</p>
     <a href="${targetUrl}" class="btn" id="launch-btn">Buka NUTRI-OPTIMA Sekarang &rarr;</a>
     <div class="tip">
-      💡 <strong>Petunjuk:</strong> Jika browser tidak membuka otomatis dalam 2 detik, klik tombol di atas. Anda juga dapat menyimpan file ini di Desktop untuk membuka aplikasi kapan saja.
+      💡 <strong>Petunjuk:</strong> Jika browser tidak membuka otomatis dalam 2 detik, klik tombol di atas. Anda juga dapat menyimpan file ini di HP atau Desktop untuk membuka aplikasi kapan saja secara online.
     </div>
   </div>
   <script>
@@ -148,8 +160,8 @@ export function downloadStandaloneApp() {
 }
 
 export function downloadDesktopShortcut() {
-  const currentUrl = window.location.origin;
-  const shortcutContent = `[InternetShortcut]\r\nURL=${currentUrl}\r\nIconIndex=0\r\nIconFile=${currentUrl}/favicon.png\r\n`;
+  const targetUrl = getAppUrl();
+  const shortcutContent = `[InternetShortcut]\r\nURL=${targetUrl}\r\nIconIndex=0\r\nIconFile=${targetUrl}/favicon.png\r\n`;
   const blob = new Blob([shortcutContent], { type: 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -162,8 +174,7 @@ export function downloadDesktopShortcut() {
 }
 
 export function openInNewTabForNativeInstall() {
-  // Opening the direct URL in a new tab allows Chrome's native omnibox install icon to appear.
-  window.open(window.location.origin, '_blank');
+  window.open(getAppUrl(), '_blank');
 }
 
 export function isRunningInIframe(): boolean {

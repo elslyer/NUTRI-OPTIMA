@@ -1,6 +1,7 @@
-import React from 'react';
-import { HeartPulse, Moon, Sun, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { HeartPulse, Moon, Sun, ArrowRight, Smartphone } from 'lucide-react';
 import { PWAInstallButton } from './PWAInstallButton';
+import { MobileAccessModal } from './MobileAccessModal';
 
 interface NavbarProps {
   currentTab: 'home' | 'assessment' | 'result' | 'database' | 'methodology' | 'ai-assistant';
@@ -17,6 +18,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   toggleDarkMode,
 }) => {
+  const [showMobileModal, setShowMobileModal] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-xs transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,8 +128,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </nav>
 
-          {/* Action Buttons: PWA Install, Dark Mode Toggle & Assessment CTA */}
+          {/* Action Buttons: PWA Install, Buka di HP, Dark Mode Toggle & Assessment CTA */}
           <div className="flex items-center gap-2">
+            {/* Open on Phone (QR code & link) button */}
+            <button
+              id="btn-nav-open-phone"
+              onClick={() => setShowMobileModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-teal-800 dark:text-teal-200 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900/80 border border-teal-200 dark:border-teal-800 active:scale-95 transition-all duration-200 shadow-2xs cursor-pointer"
+              title="Pindai QR Code atau buka di HP"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+              <span className="hidden sm:inline">Buka di HP</span>
+            </button>
+
             {/* Direct PWA Install Button */}
             <PWAInstallButton variant="navbar" />
 
@@ -156,6 +170,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
       </div>
+
+      <MobileAccessModal
+        isOpen={showMobileModal}
+        onClose={() => setShowMobileModal(false)}
+      />
 
       {/* Mobile navigation bar */}
       <div className="md:hidden flex items-center justify-around border-t border-slate-200 dark:border-slate-800 py-2 px-1 text-xs bg-slate-50 dark:bg-slate-950/80">
