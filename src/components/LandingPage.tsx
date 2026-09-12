@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Sparkles, BookOpen, Database, Users, Utensils, ShieldCheck, HeartPulse } from 'lucide-react';
-import heroIllustration from '../assets/images/hero_workforce_food_1789205846172.jpg';
+import heroIllustration from '../assets/images/workforce_nutrition_banner_1789215250000.jpg';
 import cartoonFoodIllustration from '../assets/images/cartoon_healthy_food_1789205869154.jpg';
 
 interface LandingPageProps {
@@ -109,7 +109,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div className="rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm relative">
                 <img
                   src={heroIllustration}
-                  alt="Ilustrasi kartun pekerja Indonesia dan aneka pangan lokal bergizi"
+                  alt="Ilustrasi profesi tenaga kerja: koki, profesional kantor, dokter, teknisi konstruksi, dan tenaga medis berlatar pangan bergizi"
                   className="w-full h-auto object-cover transform group-hover:scale-102 transition-transform duration-500"
                   referrerPolicy="no-referrer"
                 />
