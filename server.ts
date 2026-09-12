@@ -132,26 +132,75 @@ ${profileSummary}
 ${nutritionSummary}`;
 
       if (client) {
-        // Multi-model resilience: try primary model, then lite/latest if temporary 503 high-demand occurs
-        const candidateModels = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+        // Multi-model resilience: start with lightning-fast gemini-3.1-flash-lite, then flash-latest & 3.8-flash
+        const candidateModels = ["gemini-3.1-flash-lite", "gemini-flash-latest", "gemini-3.8-flash"];
         
-        // Prepare multi-turn conversation context
+        // Prepare multi-turn conversation context with full conversational memory
+        const rawHistory = Array.isArray(history) ? history.slice(-10) : [];
         const contentsPayload: any[] = [];
-        if (Array.isArray(history) && history.length > 0) {
-          // Take last 6 messages to preserve context without blowing token budget
-          for (const item of history.slice(-6)) {
-            if (item && item.text && typeof item.text === "string") {
+        
+        for (const item of rawHistory) {
+          if (!item || typeof item.text !== "string" || !item.text.trim()) continue;
+          const role = item.sender === "user" ? "user" : "model";
+          
+          if (contentsPayload.length === 0) {
+            contentsPayload.push({
+              role: role,
+              parts: [{ text: item.text.trim() }],
+            });
+          } else {
+            const lastIndex = contentsPayload.length - 1;
+            if (contentsPayload[lastIndex].role === role) {
+              contentsPayload[lastIndex].parts[0].text += `\n\n${item.text.trim()}`;
+            } else {
               contentsPayload.push({
-                role: item.sender === "user" ? "user" : "model",
-                parts: [{ text: item.text }],
+                role: role,
+                parts: [{ text: item.text.trim() }],
               });
             }
           }
         }
-        contentsPayload.push({
-          role: "user",
-          parts: [{ text: message }],
-        });
+
+        // Now append current user message safely ensuring alternating roles
+        if (contentsPayload.length > 0 && contentsPayload[contentsPayload.length - 1].role === "user") {
+          contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n${message.trim()}`;
+        } else {
+          contentsPayload.push({
+            role: "user",
+            parts: [{ text: message.trim() }],
+          });
+        }
+
+        const comprehensiveSystemInstruction = `Anda adalah "NUTRI-AI", asisten kecerdasan buatan cerdas, interaktif, dan berpengetahuan luas dari platform NUTRI-OPTIMA ("Nourishing the Workforce"). Anda bertindak sebagai konsultan gizi okupasi, pakar kesehatan tenaga kerja, pendamping manajemen stres/burnout, dan partner diskusi cerdas bagi seluruh pekerja Indonesia.
+
+KEMAMPUAN UTAMA & INSTRUKSI PENGERJAAN:
+
+1. KEMAMPUAN MENJAWAB PERTANYAAN LANJUTAN (MULTI-TURN CONTINUITY):
+   - Anda memiliki daya ingat percakapan yang kuat. Selalu perhatikan riwayat obrolan sebelumnya!
+   - Ketika pengguna mengajukan pertanyaan lanjutan (misalnya: "kalau begitu...", "lalu bagaimana jika...", "kalau telurnya direbus atau digoreng?", "bisa beri alternatif lauk lain?", "berapa gram porsinya?", "bagaimana resep memasaknya?", "bagaimana jadwal makan shiftnya?", "ada opsi yang lebih murah?"):
+     * JAWAB LANGSUNG secara spesifik, koheren, dan relevan dengan apa yang sudah dibahas sebelumnya.
+     * JANGAN mengulang salam pembuka, perkenalan diri, atau ucapan formal berulang-ulang jika sedang berada di tengah-tengah obrolan lanjutan. Langsung ke inti jawaban dengan gaya bahasa luwes dan solutif.
+
+2. KEMAMPUAN MENJAWAB PERTANYAAN BEBAS & RANDOM (BROAD GENERAL KNOWLEDGE):
+   - Pengguna bebas bertanya pertanyaan apa saja (pengetahuan umum, sains, teknologi, matematika, trivia, sejarah, resep masakan, tips produktivitas kerja, hobi, humor sehat, perbandingan hal, atau obrolan santai sehari-hari).
+   - JAWAB LANGSUNG DAN TUNTAS pertanyaan tersebut secara cerdas, akurat, informatif, dan ramah.
+   - JANGAN PERNAH menolak atau berkata kaku seperti "Maaf saya hanya asisten gizi"!
+   - JANGAN memaksakan menuduh pengguna lelah/stres di setiap pertanyaan secara berlebihan. Bersikaplah seperti AI cerdas serba bisa yang menyenangkan diajak ngobrol.
+   - Jika topiknya memungkinkan, Anda boleh menyisipkan sentuhan tips kesehatan, hidrasi, atau fokus kerja secara natural di bagian akhir tanpa terkesan memaksakan.
+
+3. SPESIALISASI GIZI OKUPASI & KESEHATAN PEKERJA INDONESIA:
+   - Gizi Kerja & Pangan Lokal: Rekomendasi nutrisi presisi berbasis pangan lokal Indonesia terjangkau (tempe, tahu, telur, ikan kembung, sayur bayam, kacang hijau, pisang, dll.) untuk stamina stabil tanpa "food coma" di jam kerja.
+   - Pola Shift & Sirkadian: Jadwal makan teratur bagi pekerja shift malam (pre-shift, mid-shift, post-shift) dan pekerja lembur.
+   - Manajemen Stres & Pemulihan Kelelahan: Menurunkan hormon stres kortisol dengan nutrisi penenang (magnesium, vitamin B kompleks), hidrasi teratur, serta teknik jeda mikro (*micro-breaks* dan pernapasan 4-7-8).
+
+4. GAYA KOMUNIKASI & FORMAT:
+   - Bahasa Indonesia yang santun, ramah, interaktif, empatik, dan solutif.
+   - Format Markdown yang rapi: gunakan subjudul (###), poin-poin (* / -), dan penekanan kata kunci (**bold**).
+   - Di akhir respons, sertakan SATU pertanyaan interaktif lanjutan atau ajakan ringan yang relevan untuk menjaga percakapan tetap mengalir dua arah.
+
+Informasi Biometrik & Okupasi Pekerja Terpantau:
+${profileSummary}
+${nutritionSummary}`;
 
         for (const modelName of candidateModels) {
           try {
@@ -159,8 +208,8 @@ ${nutritionSummary}`;
               model: modelName,
               contents: contentsPayload,
               config: {
-                systemInstruction,
-                temperature: 0.75,
+                systemInstruction: comprehensiveSystemInstruction,
+                temperature: 0.7,
               },
             });
 
@@ -168,17 +217,80 @@ ${nutritionSummary}`;
             return res.json({ reply: replyText, source: "gemini" });
           } catch (modelError: any) {
             const statusCode = modelError?.status || modelError?.statusCode || modelError?.error?.code;
-            console.log(`Model ${modelName} unavailable (status ${statusCode}), trying fallback...`);
+            console.log(`Model ${modelName} unavailable (status ${statusCode}), trying next model...`);
           }
         }
         console.log("Remote models busy, engaging intelligent domain nutrition engine.");
       }
 
-      // Contextual Fallback response when GEMINI_API_KEY is not configured or offline
+      // Contextual Fallback response when GEMINI_API_KEY is offline or rate-limited
       const lower = message.toLowerCase();
       let fallbackReply = "";
 
-      if (lower.includes("jenuh") || lower.includes("bosan") || lower.includes("gabut") || lower.includes("penat") || lower.includes("monoton") || lower.includes("males")) {
+      // 1. Follow-up: Cooking method, recipe, preparation (rebus, goreng, kukus, resep)
+      if (lower.includes("resep") || lower.includes("masak") || lower.includes("rebus") || lower.includes("goreng") || lower.includes("kukus") || lower.includes("bakar") || lower.includes("olah")) {
+        fallbackReply = `### 🍳 Panduan Pengolahan & Resep Sehat untuk Pekerja
+Pilihan metode pengolahan sangat menentukan retensi zat gizi dan pencegahan *food coma* di jam kerja:
+
+1. **Prioritas Metode (Kukus, Rebus, & Tumis Ringan)**:
+   - **Telur**: Telur rebus (*hard-boiled*) mempertahankan nilai protein murni 100% tanpa tambahan asam lemak jenuh dari minyak jelantah. Cocok dibawa praktis sebagai bekal kerja.
+   - **Tempe & Tahu**: Tumis tempe bacem panggang atau tahu kukus dengan bumbu kuning jahe dan kunyit mempertahankan antioksidan isoflavon tanpa lemak trans berlebih.
+   - **Sayur (Bayam, Labu, Buncis)**: Rebus sayur hijau cukup 2–3 menit saja untuk mencegah kerusakan vitamin B kompleks dan vitamin C yang larut air.
+
+2. **Pengurangan Minyak Berlebih**:
+   - Kurangi makanan digoreng *deep-fry* saat jam kerja siang. Minyak goreng jenuh memerlukan waktu cerna lambung 4–5 jam, mengalirkan darah ke sistem pencernaan dan memicu kantuk hebat (*reactive fatigue*).
+
+*Apakah Anda biasanya sempat menyiapkan bekal dari rumah, atau lebih sering membeli makanan matang di sekitar tempat kerja?*`;
+      } 
+      // 2. Follow-up: Substitutions / alternatives (ganti, pengganti, substitusi, alternatif, tidak suka, alergi)
+      else if (lower.includes("ganti") || lower.includes("substitusi") || lower.includes("alternatif") || lower.includes("tidak suka") || lower.includes("alergi") || lower.includes("selain")) {
+        fallbackReply = `### 🔄 Alternatif Bahan Pangan Lokal Pengganti
+Jika Anda ingin mengganti salah satu bahan makanan atau memiliki preferensi khusus:
+
+1. **Pengganti Protein Hewani**:
+   - Bila tidak mengonsumsi telur atau ayam: Gunakan **ikan kembung**, **ikan tongkol**, **ati ayam**, atau **udang sungai**.
+   - Bila vegetarian: Kombinasikan **tempe** (100g = 19g protein) + **tahu putih** (100g = 10g protein) + **edamame / kacang hijau** untuk spektrum asam amino lengkap.
+2. **Pengganti Karbohidrat Pokok**:
+   - Jika ingin membatasi nasi putih: Pilihan lokal terbaik meliputi **ubi jalar rebus** (indeks glikemik rendah, kaya beta-karoten), **jagung manis**, **kentang rebus**, atau **singkong kukus**.
+3. **Pengganti Sayuran**:
+   - Jika kurang menyukai bayam: Gunakan **kangkung**, **daun katuk**, **daun kelor** (sangat kaya kalsium & antioksidan), atau **buncis**.
+
+*Bahan makanan mana yang ingin Anda ganti atau cari alternatif terbaiknya? Saya siap buatkan penyesuaian porsinya.*`;
+      }
+      // 3. Follow-up: Portions, grams, measurements (porsi, gram, takaran, sendok, mangkok)
+      else if (lower.includes("porsi") || lower.includes("gram") || lower.includes("takaran") || lower.includes("sendok") || lower.includes("berapa banyak") || lower.includes("mangkok")) {
+        fallbackReply = `### ⚖️ Takaran Porsi Gizi Harian Pekerja (Metode Praktis Tangan)
+Untuk memenuhi target kalori harian Anda (**${nutrition?.daily_calories || 2300} kkal**) dan protein (**${nutrition?.target_protein_g || 85} gram**):
+
+1. **Karbohidrat Pokok (Nasi/Ubi)**:
+   - Sekitar 1 kepalan tangan (100–150 gram per waktu makan utama) = ~175 kkal.
+2. **Lauk Protein (Hewani & Nabati)**:
+   - Seukuran telapak tangan tanpa jari: 1 potong tempe sedang (50g) + 1 butir telur rebus (55g) atau 1 ekor ikan kembung ukuran sedang (80g).
+   - Menyumbang 18–24 gram protein per waktu makan.
+3. **Sayuran Hijau & Serat**:
+   - Sebanyak 2 tangkup tangan terbuka (minimal 1 mangkok sedang / 100–150 gram sayuran berkuah) untuk menjaga glikemik stabil dan mencegah sembelit kerja.
+4. **Buah Segar**:
+   - 1 buah ukuran genggaman tangan (misal: 1 buah pisang ambon atau 1 potong semangka/pepaya sedang).
+
+*Apakah Anda memiliki timbangan makanan di rumah, atau ingin panduan praktis porsi berdasarkan centong nasi dan sendok makan?*`;
+      }
+      // 4. Follow-up: Weight management & calorie targets (kurus, gemuk, berat badan, diet, turun, naik)
+      else if (lower.includes("berat badan") || lower.includes("diet") || lower.includes("turun") || lower.includes("naik") || lower.includes("gemuk") || lower.includes("kurus") || lower.includes("ideal")) {
+        fallbackReply = `### 🎯 Strategi Pengelolaan Berat Badan Berdasarkan IMT Pekerja
+Berdasarkan data biometrik Anda:
+- **Status IMT Saat Ini**: ${nutrition?.bmi || 22.5} kg/m² (${nutrition?.bmi_category || 'Normal'})
+- **Kebutuhan Kalori Pemeliharaan (TDEE)**: ${nutrition?.daily_calories || 2300} kkal/hari
+
+1. **Jika Ingin Menurunkan Lemak Tubuh (Fat Loss)**:
+   - Terapkan defisit kalori moderat 300–500 kkal (konsumsi sekitar ${nutrition ? nutrition.daily_calories - 400 : 1900} kkal).
+   - Jangan kurangi protein! Pertahankan target protein **${nutrition?.target_protein_g || 85}g** agar massa otot tidak menyusut dan metabolisme tetap tinggi.
+2. **Jika Ingin Menjaga Stamina & Berat Ideal**:
+   - Pertahankan pola makan seimbang sesuai rekomendasi jadwal gizi 4 waktu makan NUTRI-OPTIMA.
+   - Perhatikan hidrasi kerja minimal 2.5–3 liter per hari agar cairan intraseluler stabil.
+
+*Apa sasaran utama fisik Anda dalam 1–3 bulan ke depan? Apakah fokus menurunkan lingkar perut, menjaga kebugaran, atau menambah massa otot?*`;
+      }
+      else if (lower.includes("jenuh") || lower.includes("bosan") || lower.includes("gabut") || lower.includes("penat") || lower.includes("monoton") || lower.includes("males")) {
         fallbackReply = `### 🌿 Mengatasi Rasa Jenuh & Kelelahan Mental (*Work Burnout*)
 Rasa jenuh dan kehilangan gairah di tengah rutinitas kerja adalah sinyal biologis bahwa otak Anda sedang mengalami *mental fatigue* dan membutuhkan jeda penyegaran:
 
@@ -317,18 +429,19 @@ Berdasarkan beban okupasi Anda (${userProfile?.occupation_type || "Kerja Fisik"}
 
 *Apakah pekerjaan fisikmu hari ini banyak terpapar panas matahari langsung atau di dalam ruangan pabrik?*`;
       } else {
-        fallbackReply = `### 💬 Tanggapan Interaktif NUTRI-AI
-Terima kasih atas pertanyaannya! Meskipun topiknya terdengar santai atau sedikit di luar konteks gizi teknis, saya senang bisa berdiskusi dengan Anda.
+        fallbackReply = `### 💡 Jawaban & Analisis NUTRI-AI
+Terima kasih atas pertanyaannya! Terkait hal yang Anda tanyakan:
 
-1. **Menghubungkan dengan Kesejahteraan Pekerja**:
-   - Saat kita mengajukan pertanyaan acak atau mencari distraksi di sela rutinitas kerja, sering kali itu sinyal alamiah bahwa **pikiran sedang penat, jenuh, atau butuh penyegaran (*mental break*)**.
-   - Menjaga keseimbangan antara fokus kerja, penurunan tingkat stres, dan asupan nutrisi adalah kunci agar kita tidak mudah tumbang (*burnout*).
+1. **Inti Jawaban & Konteks**:
+   - Topik yang Anda angkat sangat menarik untuk dibahas. Baik dalam konteks rutinitas kerja sehari-hari, produktivitas, maupun wawasan umum, menjaga rasa ingin tahu dan pikiran yang aktif adalah salah satu indikator vitalitas mental yang sehat.
+   
+2. **Kaitan dengan Produktivitas & Kebugaran Kerja**:
+   - Menjaga energi fisik tetap stabil melalui asupan gizi seimbang (seperti target Anda: **${nutrition?.daily_calories || 2300} kkal** dan protein **${nutrition?.target_protein_g || 85}g**) serta hidrasi teratur (minimal 2–3 liter air/hari) akan membuat daya konsentrasi otak tetap tajam saat berpikir maupun bekerja.
 
-2. **Dukungan untuk Profil Okupasi Anda**:
-   - Sebagai **${userProfile?.occupation_type || 'Tenaga Kerja'}** dengan jam kerja **${userProfile?.working_hours || '8 jam/hari'}**, tubuh Anda memerlukan energi harian sekitar **${nutrition?.daily_calories || 2300} kkal** dan protein **${nutrition?.target_protein_g || 85} gram**.
-   - Langkah kilat penyegar pikiran: Minum 1 gelas air mineral, tarik napas dalam 3 kali, dan luruskan punggung sejenak.
+3. **Diskusi Lanjutan**:
+   - Jika ada hal spesifik lain yang ingin Anda ketahui lebih mendalam—baik seputar menu makanan lokal, trik mencegah kantuk siang, alternatif bahan pangan, strategi shift kerja, atau topik lainnya—silakan tanyakan langsung!
 
-*Bagaimana kondisi fisik dan perasaanmu hari ini? Apakah pekerjaan sedang terasa cukup menguras energi atau pikiran terasa jenuh?*`;
+*Ada topik atau pertanyaan lanjutan lain yang ingin kita diskusikan bersama?*`;
       }
 
       return res.json({ reply: fallbackReply, source: "domain-engine" });

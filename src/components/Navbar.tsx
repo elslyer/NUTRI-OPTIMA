@@ -35,17 +35,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             
             <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-1.5">
-                <span className="font-black text-xl sm:text-2xl tracking-tight leading-none text-slate-900 dark:text-white transition-colors">
-                  <span>NUTRI</span>
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300 font-extrabold ml-0.5">
-                    -OPTIMA
-                  </span>
+              <span className="font-black text-xl sm:text-2xl tracking-tight leading-none text-slate-900 dark:text-white transition-colors">
+                <span>NUTRI</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300 font-extrabold ml-0.5">
+                  -OPTIMA
                 </span>
-                <span className="hidden lg:inline-flex items-center text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-emerald-100/90 dark:bg-emerald-950/90 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 shadow-2xs">
-                  Workforce AI
-                </span>
-              </div>
+              </span>
               <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 leading-tight tracking-tight hidden sm:block">
                 Occupational Nutrition System
               </span>

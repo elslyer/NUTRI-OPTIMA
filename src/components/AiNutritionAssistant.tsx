@@ -150,7 +150,7 @@ export const AiNutritionAssistant: React.FC<AiNutritionAssistantProps> = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: query,
-          history: messages.slice(-6).map((m) => ({
+          history: messages.slice(-10).map((m) => ({
             sender: m.sender,
             text: m.text,
           })),
@@ -182,7 +182,70 @@ export const AiNutritionAssistant: React.FC<AiNutritionAssistantProps> = ({
     let fallbackText = '';
     const qLower = query.toLowerCase();
 
-    if (qLower.includes('jenuh') || qLower.includes('bosan') || qLower.includes('gabut') || qLower.includes('penat') || qLower.includes('monoton') || qLower.includes('males')) {
+    // 1. Follow-up: Cooking method, recipe, preparation (rebus, goreng, kukus, resep)
+    if (qLower.includes('resep') || qLower.includes('masak') || qLower.includes('rebus') || qLower.includes('goreng') || qLower.includes('kukus') || qLower.includes('bakar') || qLower.includes('olah')) {
+      fallbackText = `### 🍳 Panduan Pengolahan & Resep Sehat untuk Pekerja
+Pilihan metode memasak sangat menentukan retensi zat gizi dan pencegahan *food coma* di jam kerja:
+
+1. **Prioritas Metode (Kukus, Rebus, & Tumis Ringan)**:
+   - **Telur**: Telur rebus (*hard-boiled*) mempertahankan nilai biologis protein 100% tanpa lemak jenuh minyak jelantah. Praktis dibawa sebagai bekal kerja.
+   - **Tempe & Tahu**: Bacem panggang atau tahu kukus bumbu kuning mempertahankan isoflavon tanpa lemak trans berlebih.
+   - **Sayur (Bayam, Labu, Buncis)**: Rebus cukup 2–3 menit saja untuk mencegah rusaknya vitamin B kompleks dan vitamin C larut air.
+
+2. **Batasi *Deep-Fry***:
+   - Kurangi makanan gorengan tepung tebal saat jam kerja siang. Lemak jenuh tinggi memerlukan 4–5 jam untuk dicerna, memicu kantuk hebat (*postprandial somnolence*).
+
+*Apakah Anda biasanya sempat menyiapkan bekal dari rumah, atau lebih sering membeli makanan di warung makan/kantin sekitar kantor?*`;
+    }
+    // 2. Follow-up: Substitutions / alternatives (ganti, pengganti, substitusi, alternatif)
+    else if (qLower.includes('ganti') || qLower.includes('substitusi') || qLower.includes('alternatif') || qLower.includes('tidak suka') || qLower.includes('alergi') || qLower.includes('selain')) {
+      fallbackText = `### 🔄 Alternatif Bahan Pangan Lokal Pengganti
+Jika Anda ingin mengganti salah satu bahan pangan atau memiliki pantangan khusus:
+
+1. **Pengganti Protein Hewani**:
+   - Jika tidak mengonsumsi telur atau ayam: Gunakan **ikan kembung**, **ikan tongkol**, **ati ayam**, atau **udang sungai**.
+   - Opsi nabati: Kombinasikan **tempe** (100g = 19g protein) + **tahu putih** (100g = 10g protein) + **kacang hijau** untuk spektrum asam amino lengkap.
+2. **Pengganti Karbohidrat Pokok**:
+   - Jika ingin membatasi nasi putih: Pilihan lokal terbaik meliputi **ubi jalar rebus** (indeks glikemik rendah, kaya serat & beta-karoten), **jagung manis**, atau **kentang rebus**.
+3. **Pengganti Sayuran**:
+   - Jika kurang menyukai bayam: Gunakan **kangkung**, **daun katuk**, **daun kelor**, atau **buncis**.
+
+*Bahan makanan mana yang ingin Anda ganti atau cari alternatif terbaiknya? Saya siap buatkan penyesuaian porsinya.*`;
+    }
+    // 3. Follow-up: Portions, grams, measurements
+    else if (qLower.includes('porsi') || qLower.includes('gram') || qLower.includes('takaran') || qLower.includes('sendok') || qLower.includes('berapa banyak')) {
+      fallbackText = `### ⚖️ Takaran Porsi Gizi Harian Pekerja (Metode Praktis Tangan)
+Untuk memenuhi target kalori harian Anda (**${nutrition?.daily_calories || 2300} kkal**) dan protein (**${nutrition?.target_protein_g || 85} gram**):
+
+1. **Karbohidrat Pokok (Nasi/Ubi)**:
+   - Sekitar 1 kepalan tangan (100–150 gram per waktu makan utama) = ~175 kkal.
+2. **Lauk Protein (Hewani & Nabati)**:
+   - Seukuran telapak tangan tanpa jari: 1 potong tempe sedang (50g) + 1 butir telur rebus (55g) atau 1 ekor ikan kembung ukuran sedang (80g).
+   - Menyumbang 18–24 gram protein per waktu makan.
+3. **Sayuran Hijau & Serat**:
+   - Sebanyak 2 tangkup tangan terbuka (minimal 1 mangkok sedang / 100–150 gram sayuran berkuah) untuk menjaga glikemik stabil dan mencegah sembelit kerja.
+4. **Buah Segar**:
+   - 1 buah ukuran genggaman tangan (misal: 1 buah pisang ambon atau 1 potong semangka/pepaya sedang).
+
+*Apakah Anda memiliki timbangan makanan di rumah, atau ingin panduan praktis porsi berdasarkan centong nasi dan sendok makan?*`;
+    }
+    // 4. Follow-up: Weight management & calorie targets
+    else if (qLower.includes('berat badan') || qLower.includes('diet') || qLower.includes('turun') || qLower.includes('naik') || qLower.includes('gemuk') || qLower.includes('kurus') || qLower.includes('ideal')) {
+      fallbackText = `### 🎯 Strategi Pengelolaan Berat Badan Berdasarkan IMT Pekerja
+Berdasarkan data biometrik Anda:
+- **Status IMT Saat Ini**: ${nutrition?.bmi || 22.5} kg/m² (${nutrition?.bmi_category || 'Normal'})
+- **Kebutuhan Kalori Pemeliharaan (TDEE)**: ${nutrition?.daily_calories || 2300} kkal/hari
+
+1. **Jika Ingin Menurunkan Lemak Tubuh (Fat Loss)**:
+   - Terapkan defisit kalori moderat 300–500 kkal (konsumsi sekitar ${nutrition ? nutrition.daily_calories - 400 : 1900} kkal).
+   - Jangan kurangi protein! Pertahankan target protein **${nutrition?.target_protein_g || 85}g** agar massa otot tidak menyusut dan metabolisme tetap tinggi.
+2. **Jika Ingin Menjaga Stamina & Berat Ideal**:
+   - Pertahankan pola makan seimbang sesuai rekomendasi jadwal gizi 4 waktu makan NUTRI-OPTIMA.
+   - Perhatikan hidrasi kerja minimal 2.5–3 liter per hari agar cairan intraseluler stabil.
+
+*Apa sasaran utama fisik Anda dalam 1–3 bulan ke depan? Apakah fokus menurunkan lingkar perut, menjaga kebugaran, atau menambah massa otot?*`;
+    }
+    else if (qLower.includes('jenuh') || qLower.includes('bosan') || qLower.includes('gabut') || qLower.includes('penat') || qLower.includes('monoton') || qLower.includes('males')) {
       fallbackText = `### 🌿 Mengatasi Rasa Jenuh & Kelelahan Mental (*Work Burnout*)
 Rasa jenuh dan kehilangan gairah di tengah rutinitas kerja adalah sinyal biologis bahwa otak Anda sedang mengalami *mental fatigue* dan membutuhkan jeda penyegaran:
 
@@ -321,18 +384,19 @@ Untuk intensitas pekerjaan **${userProfile.occupation_type}**:
 
 *Apakah pekerjaan fisikmu hari ini banyak terpapar panas matahari langsung atau di dalam ruangan pabrik?*`;
     } else {
-      fallbackText = `### 💬 Tanggapan Interaktif NUTRI-AI
-Terima kasih atas pertanyaannya! Meskipun topiknya terdengar santai atau sedikit di luar konteks gizi teknis, saya senang bisa berdiskusi dengan Anda.
+      fallbackText = `### 💡 Jawaban & Analisis NUTRI-AI
+Terima kasih atas pertanyaannya! Terkait hal yang Anda tanyakan:
 
-1. **Menghubungkan dengan Kesejahteraan Pekerja**:
-   - Saat kita mengajukan pertanyaan acak atau mencari distraksi di sela rutinitas kerja, sering kali itu sinyal alamiah bahwa **pikiran sedang penat, jenuh, atau butuh penyegaran (*mental break*)**.
-   - Menjaga keseimbangan antara fokus kerja, penurunan tingkat stres, dan asupan nutrisi adalah kunci agar kita tidak mudah tumbang (*burnout*).
+1. **Inti Jawaban & Konteks**:
+   - Topik yang Anda angkat sangat menarik untuk dibahas. Baik dalam konteks rutinitas kerja sehari-hari, produktivitas, maupun wawasan umum, menjaga rasa ingin tahu dan pikiran yang aktif adalah salah satu indikator vitalitas mental yang sehat.
+   
+2. **Kaitan dengan Produktivitas & Kebugaran Kerja**:
+   - Menjaga energi fisik tetap stabil melalui asupan gizi seimbang (seperti target Anda: **${nutrition?.daily_calories || 2300} kkal** dan protein **${nutrition?.target_protein_g || 85}g**) serta hidrasi teratur (minimal 2–3 liter air/hari) akan membuat daya konsentrasi otak tetap tajam saat berpikir maupun bekerja.
 
-2. **Dukungan untuk Profil Okupasi Anda**:
-   - Sebagai **${userProfile.occupation_type}** dengan jam kerja **${userProfile.working_hours}**, tubuh Anda memerlukan energi harian sekitar **${nutrition?.daily_calories || 2300} kkal** dan protein **${nutrition?.target_protein_g || 85} gram**.
-   - Langkah kilat penyegar pikiran: Minum 1 gelas air mineral, tarik napas dalam 3 kali, dan luruskan punggung sejenak.
+3. **Diskusi Lanjutan**:
+   - Jika ada hal spesifik lain yang ingin Anda ketahui lebih mendalam—baik seputar menu makanan lokal, trik mencegah kantuk siang, alternatif bahan pangan, strategi shift kerja, atau topik lainnya—silakan tanyakan langsung!
 
-*Bagaimana kondisi fisik dan perasaanmu hari ini? Apakah pekerjaan sedang terasa cukup menguras energi atau pikiran terasa jenuh?*`;
+*Ada topik atau pertanyaan lanjutan lain yang ingin kita diskusikan bersama?*`;
     }
 
     const fallbackReply: ChatMessage = {
