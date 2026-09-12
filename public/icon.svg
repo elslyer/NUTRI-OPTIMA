@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#a7f3d0" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#064e3b" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  
+  <!-- Outer Rounded Rectangle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  
+  <!-- Stylized Shield & Nutrition Leaf Emblem -->
+  <g filter="url(#dropShadow)">
+    <!-- Base Nutrition Teardrop / Leaf -->
+    <path d="M256 96 C190 96 140 148 140 220 C140 310 256 416 256 416 C256 416 372 310 372 220 C372 148 322 96 256 96 Z" fill="#ffffff" />
+    <!-- Inner Leaf Accent -->
+    <path d="M256 140 C210 140 178 178 178 228 C178 290 256 366 256 366 C256 366 334 290 334 228 C334 178 302 140 256 140 Z" fill="url(#bgGrad)" />
+    <!-- Vitality Center Spark -->
+    <circle cx="256" cy="228" r="42" fill="#ffffff" />
+    <path d="M256 200 L264 220 L284 228 L264 236 L256 256 L248 236 L228 228 L248 220 Z" fill="#059669" />
+  </g>
+</svg>

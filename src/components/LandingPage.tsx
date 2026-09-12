@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Sparkles, BookOpen, Database, Users, Utensils, ShieldCheck, HeartPulse } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 import heroIllustration from '../assets/images/workforce_nutrition_banner_1789215250000.jpg';
 import cartoonFoodIllustration from '../assets/images/cartoon_healthy_food_1789205869154.jpg';
 
@@ -82,6 +83,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <Database className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>100 Pangan Lokal</span>
               </button>
+
+              <PWAInstallButton variant="hero" />
             </div>
 
             {/* Highlights row */}

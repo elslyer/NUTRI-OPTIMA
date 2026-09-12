@@ -16,6 +16,7 @@ import { ResultDashboard } from './components/ResultDashboard';
 import { FoodDatabaseViewer } from './components/FoodDatabaseViewer';
 import { MethodologyView } from './components/MethodologyView';
 import { AiNutritionAssistant } from './components/AiNutritionAssistant';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 const INITIAL_USER_PROFILE: UserProfile = {
   age: 26,
@@ -137,6 +138,9 @@ export default function App() {
 
       {/* Medical & Occupational Disclaimer */}
       <DisclaimerBanner />
+
+      {/* Connectivity & Offline Status Indicator */}
+      <OfflineIndicator />
 
       {/* Main Content View with Smooth Tab Transitions */}
       <main className="flex-1 pb-16">

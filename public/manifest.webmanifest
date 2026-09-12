@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "NUTRI-OPTIMA: Workforce Nutrition System",
+  "short_name": "NUTRI-OPTIMA",
+  "description": "Sistem rekomendasi gizi presisi berbasis biometrik, okupasi kerja, ritme sirkadian shift, dan 100 pangan lokal Indonesia.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#059669",
+  "categories": ["health", "lifestyle", "productivity", "medical"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

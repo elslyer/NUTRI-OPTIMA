@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeartPulse, Moon, Sun, ArrowRight } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface NavbarProps {
   currentTab: 'home' | 'assessment' | 'result' | 'database' | 'methodology' | 'ai-assistant';
@@ -124,8 +125,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </nav>
 
-          {/* Action Buttons: Dark Mode Toggle & Assessment CTA */}
+          {/* Action Buttons: PWA Install, Dark Mode Toggle & Assessment CTA */}
           <div className="flex items-center gap-2">
+            {/* Direct PWA Install Button */}
+            <PWAInstallButton variant="navbar" />
+
             {/* Dark / Light Mode Toggle */}
             <button
               id="theme-toggle-btn"
