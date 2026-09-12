@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-home"
               onClick={() => setCurrentTab('home')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                 currentTab === 'home'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-assessment"
               onClick={() => setCurrentTab('assessment')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                 currentTab === 'assessment'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
@@ -82,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="nav-result"
                 onClick={() => setCurrentTab('result')}
-                className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+                className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                   currentTab === 'result'
                     ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                     : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
@@ -95,7 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-database"
               onClick={() => setCurrentTab('database')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                 currentTab === 'database'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-methodology"
               onClick={() => setCurrentTab('methodology')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                 currentTab === 'methodology'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
@@ -119,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="nav-ai-assistant"
               onClick={() => setCurrentTab('ai-assistant')}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ease-out active:scale-95 cursor-pointer select-none ${
                 currentTab === 'ai-assistant'
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-800/80 shadow-2xs'
                   : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'

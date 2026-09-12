@@ -4,7 +4,6 @@ import { FoodItem } from '../types';
 import {
   Search,
   Database,
-  Leaf,
   Sparkles,
   Grid,
   List,
@@ -190,7 +189,7 @@ export const FoodDatabaseViewer: React.FC = () => {
             <span>Katalog Gizi Nusantara • Standar Kemenkes RI</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Katalog 50 Pangan Lokal Pekerja Indonesia
+            Katalog 100 Pangan Lokal Pekerja Indonesia
           </h2>
           <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-2xl">
             Basis data pangan lokal yang dirancang khusus untuk optimasi gizi tenaga kerja: memadukan makronutrien, estimasi harga riil per porsi, dan indeks jejak karbon keberlanjutan lingkungan.
@@ -265,8 +264,8 @@ export const FoodDatabaseViewer: React.FC = () => {
         </div>
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 flex items-center justify-center text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800 flex-shrink-0">
-            <Leaf className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 flex items-center justify-center text-teal-600 dark:text-teal-400 font-extrabold text-xs border border-teal-200 dark:border-teal-800 flex-shrink-0">
+            ECO
           </div>
           <div>
             <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 block">Rata-Rata Eco Score</span>
@@ -527,9 +526,8 @@ export const FoodDatabaseViewer: React.FC = () => {
                 {/* Footer with Eco score & Click trigger */}
                 <div className="flex items-center justify-between text-[11px] pt-2.5 border-t border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-1.5">
-                    <span className="flex items-center gap-1 text-teal-700 dark:text-teal-400 font-semibold">
-                      <Leaf className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
-                      <span>Eco: {food.sustainability_score}</span>
+                    <span className="text-teal-700 dark:text-teal-400 font-semibold">
+                      Eco: {food.sustainability_score}
                     </span>
                     {food.vegetarian && (
                       <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 px-1.5 py-0.2 rounded">
@@ -612,9 +610,8 @@ export const FoodDatabaseViewer: React.FC = () => {
                         Rp {food.price_idr.toLocaleString('id-ID')}
                       </td>
                       <td className="px-3 py-3 text-center">
-                        <span className="inline-flex items-center gap-1 font-bold text-teal-700 dark:text-teal-400">
-                          <Leaf className="w-3 h-3 text-teal-500" />
-                          <span>{food.sustainability_score}</span>
+                        <span className="font-bold text-teal-700 dark:text-teal-400">
+                          {food.sustainability_score}
                         </span>
                       </td>
                       <td className="px-3 py-3 text-center">

@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { UserProfile, NutritionRequirements, RecommendationResult, ChatMessage } from './types';
 import { calculateNutritionRequirements } from './utils/nutritionEngine';
 import { generateRecommendation } from './utils/aiEngine';
@@ -137,63 +138,109 @@ export default function App() {
       {/* Medical & Occupational Disclaimer */}
       <DisclaimerBanner />
 
-      {/* Main Content View */}
+      {/* Main Content View with Smooth Tab Transitions */}
       <main className="flex-1 pb-16">
-        {currentTab === 'home' && (
-          <LandingPage
-            onStartAssessment={() => {
-              setCurrentTab('assessment');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewDatabase={() => {
-              setCurrentTab('database');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewMethodology={() => {
-              setCurrentTab('methodology');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewAiAssistant={() => {
-              setCurrentTab('ai-assistant');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {currentTab === 'home' && (
+            <motion.div
+              key="home"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <LandingPage
+                onStartAssessment={() => {
+                  setCurrentTab('assessment');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewDatabase={() => {
+                  setCurrentTab('database');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewMethodology={() => {
+                  setCurrentTab('methodology');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewAiAssistant={() => {
+                  setCurrentTab('ai-assistant');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </motion.div>
+          )}
 
-        {currentTab === 'assessment' && (
-          <AssessmentForm
-            initialProfile={userProfile}
-            onSubmit={handleProfileSubmit}
-          />
-        )}
+          {currentTab === 'assessment' && (
+            <motion.div
+              key="assessment"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <AssessmentForm
+                initialProfile={userProfile}
+                onSubmit={handleProfileSubmit}
+              />
+            </motion.div>
+          )}
 
-        {currentTab === 'result' && nutrition && recommendation && (
-          <ResultDashboard
-            userProfile={userProfile}
-            nutrition={nutrition}
-            recommendation={recommendation}
-            onRecalculate={() => {
-              setCurrentTab('assessment');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewDatabase={() => {
-              setCurrentTab('database');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewAiAssistant={() => {
-              setCurrentTab('ai-assistant');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onViewMethodology={() => {
-              setCurrentTab('methodology');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
+          {currentTab === 'result' && nutrition && recommendation && (
+            <motion.div
+              key="result"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <ResultDashboard
+                userProfile={userProfile}
+                nutrition={nutrition}
+                recommendation={recommendation}
+                onRecalculate={() => {
+                  setCurrentTab('assessment');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewDatabase={() => {
+                  setCurrentTab('database');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewAiAssistant={() => {
+                  setCurrentTab('ai-assistant');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onViewMethodology={() => {
+                  setCurrentTab('methodology');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </motion.div>
+          )}
 
-        {currentTab === 'database' && <FoodDatabaseViewer />}
+          {currentTab === 'database' && (
+            <motion.div
+              key="database"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <FoodDatabaseViewer />
+            </motion.div>
+          )}
 
-        {currentTab === 'methodology' && <MethodologyView />}
+          {currentTab === 'methodology' && (
+            <motion.div
+              key="methodology"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
+              <MethodologyView />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* AI Assistant view kept mounted so tab/icon switches never reset the conversation */}
         <div className={currentTab === 'ai-assistant' ? 'block' : 'hidden'}>
@@ -231,7 +278,7 @@ export default function App() {
               onClick={() => setCurrentTab('database')}
               className="hover:text-emerald-400 transition-colors"
             >
-              Katalog Pangan (50)
+              Katalog Pangan (100)
             </button>
             <button
               onClick={() => setCurrentTab('ai-assistant')}
