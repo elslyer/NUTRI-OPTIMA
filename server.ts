@@ -61,6 +61,117 @@ async function startServer() {
     });
   });
 
+  // Download standalone app package endpoint (triggers Chrome download prompt)
+  app.get("/api/download-app", (req, res) => {
+    const host = req.get("host") || "localhost:3000";
+    const protocol = req.protocol || "https";
+    const appUrl = `${protocol}://${host}`;
+
+    const htmlContent = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUTRI-OPTIMA — Workforce Nutrition System</title>
+  <meta name="description" content="Aplikasi Gizi Presisi & Kebugaran Tenaga Kerja Indonesia">
+  <link rel="icon" type="image/svg+xml" href="${appUrl}/favicon.svg">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #064e3b;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #ffffff;
+      color: #0f172a;
+      max-width: 520px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    .badge {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0 0 12px 0;
+      font-size: 26px;
+      color: #064e3b;
+    }
+    p {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: #059669;
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s, transform 0.1s;
+      box-sizing: border-box;
+    }
+    .btn:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+    .footer-note {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Aplikasi Terpasang Mandiri</div>
+    <h1>NUTRI-OPTIMA</h1>
+    <p>Sistem Rekomendasi Gizi Presisi untuk Tenaga Kerja Indonesia berbasis beban okupasi kerja, ritme sirkadian shift, dan 100 pangan lokal.</p>
+    <a href="${appUrl}" class="btn" id="launch-app">Buka NUTRI-OPTIMA Sekarang &rarr;</a>
+    <div class="footer-note">
+      Berkas ini dapat Anda simpan di Desktop atau folder Dokumen Anda untuk membuka aplikasi secara instan kapan saja.
+    </div>
+  </div>
+  <script>
+    // Auto redirect or open in dedicated window
+    setTimeout(() => {
+      window.location.href = "${appUrl}";
+    }, 800);
+  </script>
+</body>
+</html>`;
+
+    res.setHeader("Content-Disposition", 'attachment; filename="NUTRI-OPTIMA-App.html"');
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(htmlContent);
+  });
+
   // AI Workforce Nutrition Consultant endpoint
   app.post("/api/ai/chat", async (req, res) => {
     try {
