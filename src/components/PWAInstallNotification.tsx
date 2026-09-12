@@ -102,10 +102,10 @@ export const PWAInstallNotification: React.FC<PWAInstallNotificationProps> = ({
           <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="font-bold text-slate-800 dark:text-slate-200">
-              Izin Unduh Dikirim ke Browser Chrome
+              Berkas Peluncur Aplikasi Berhasil Diunduh
             </p>
             <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
-              Chrome mengunduh berkas aplikasi mandiri <code className="bg-emerald-100 dark:bg-emerald-900/60 px-1 py-0.5 rounded text-emerald-800 dark:text-emerald-200 font-mono text-[10px]">NUTRI-OPTIMA-App.html</code>. Berkas ini dapat langsung dibuka dari folder <strong>Downloads</strong> atau disematkan di Desktop Anda untuk akses cepat tanpa membuka browser.
+              Browser mengunduh berkas <code className="bg-emerald-100 dark:bg-emerald-900/60 px-1 py-0.5 rounded text-emerald-800 dark:text-emerald-200 font-mono text-[10px]">NUTRI-OPTIMA.html</code>. Berkas ini otomatis menghubungkan laptop Anda langsung ke server cloud aplikasi NUTRI-OPTIMA secara instan tanpa perlu menjalankan server lokal.
             </p>
           </div>
         </div>

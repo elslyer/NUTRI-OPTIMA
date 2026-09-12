@@ -63,9 +63,10 @@ async function startServer() {
 
   // Download standalone app package endpoint (triggers Chrome download prompt)
   app.get("/api/download-app", (req, res) => {
-    const host = req.get("host") || "localhost:3000";
-    const protocol = req.protocol || "https";
-    const appUrl = `${protocol}://${host}`;
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    const rawHost = req.headers["x-forwarded-host"] || req.get("host") || "ais-dev-v2bbpxccxtgenlpgochfyf-893119588729.asia-east1.run.app";
+    const host = String(rawHost).includes("localhost") ? "ais-dev-v2bbpxccxtgenlpgochfyf-893119588729.asia-east1.run.app" : rawHost;
+    const appUrl = `${proto}://${host}`;
 
     const htmlContent = `<!DOCTYPE html>
 <html lang="id">
