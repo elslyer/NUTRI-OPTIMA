@@ -1,11 +1,16 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
-import {registerSW} from 'virtual:pwa-register';
 import App from './App.tsx';
 import './index.css';
 
-// Automatically register PWA Service Worker for offline caching & fast loading
-registerSW({ immediate: true });
+// Automatically register PWA Service Worker in production/standalone mode
+if ('serviceWorker' in navigator && typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('Service worker registration note:', err);
+    });
+  });
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
